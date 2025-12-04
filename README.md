@@ -142,29 +142,29 @@ python run.py --debug
 | API 文档 | http://localhost:7000/docs |
 | 健康检查 | http://localhost:7000/health |
 
+## 前端启动
+
+```bash
+# 进入前端目录
+cd chatbi-frontend
+
+# 安装依赖
+npm install
+
+# 开发模式启动
+npm run dev
+
+# 生产构建
+npm run build
+
+# 预览生产构建
+npm run preview
+```
+
 ## 前后端联调
 
 - **后端地址**：http://localhost:7000
 - **前端地址**：http://localhost:5173 (默认 Vite 端口)
-
-前端项目位于 `talktobi-frontend/` 目录。
-
-## 核心处理流程
-
-### 正常查询流程
-```
-用户提问 → Intent(意图识别) → Planner(SQL规划) → Executor(执行) → Analyzer(分析) → Responder(响应)
-```
-
-### 零结果诊断流程
-```
-Executor(数据=0) → 实体提取 → LLM语义扩展探针 → 值映射 → Planner重写SQL
-```
-
-### Schema 错误诊断流程
-```
-Executor(表/列不存在) → 解析错误 → 检查Schema存在性 → Diagnoser → SchemaCompleter
-```
 
 ## 目录结构
 
@@ -217,12 +217,3 @@ talktobi-backend/
 - **密码**: 123456
 
 ⚠️ 请在生产环境中及时修改默认密码！
-
-
-## License
-
-MIT License
-
-## Author
-
-CYJ
