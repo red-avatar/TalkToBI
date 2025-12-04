@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1050" font-family="Microsoft YaHei, Arial, sans-serif">
+  <defs>
+    <linearGradient id="userGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0088AA;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orchestratorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1565C0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="agentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9800;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EF6C00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="toolGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#9C27B0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dataGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#607D8B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#37474F;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="diagnosisGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E91E63;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#AD1457;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="serviceGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BFA5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00897B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="darkBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00F5FF"/>
+    </marker>
+    <marker id="arrowheadPink" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#E91E63"/>
+    </marker>
+  </defs>
+
+  <!-- 深色背景 -->
+  <rect width="1280" height="1050" fill="url(#darkBg)"/>
+  
+  <!-- 网格背景 -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="1050" fill="url(#grid)"/>
+
+  <!-- 标题 -->
+  <text x="640" y="40" text-anchor="middle" font-size="28" font-weight="bold" fill="#00F5FF" filter="url(#glow)">TalktoBI 智能对话式 BI 系统架构</text>
+  <text x="640" y="65" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.5)">基于 LangGraph + FastAPI + Multi-Agent 协同架构</text>
+
+  <!-- ==================== 用户交互层 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="85" width="1200" height="75" rx="12" fill="url(#userGrad)" opacity="0.95"/>
+    <text x="640" y="110" text-anchor="middle" font-size="15" fill="white" font-weight="bold">🖥️ 用户交互层</text>
+    
+    <rect x="60" y="120" width="140" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="130" y="141" text-anchor="middle" font-size="11" fill="white">React + Vite 前端</text>
+    
+    <rect x="220" y="120" width="140" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="290" y="141" text-anchor="middle" font-size="11" fill="white">WebSocket 实时通信</text>
+    
+    <rect x="380" y="120" width="140" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="450" y="141" text-anchor="middle" font-size="11" fill="white">REST API 端点</text>
+    
+    <rect x="540" y="120" width="140" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="610" y="141" text-anchor="middle" font-size="11" fill="white">会话管理</text>
+    
+    <rect x="700" y="120" width="140" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="770" y="141" text-anchor="middle" font-size="11" fill="white">ECharts 可视化</text>
+    
+    <rect x="860" y="120" width="140" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="930" y="141" text-anchor="middle" font-size="11" fill="white">用户认证</text>
+    
+    <rect x="1020" y="120" width="200" height="32" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="1120" y="141" text-anchor="middle" font-size="11" fill="white">流式响应 (SSE/WS)</text>
+  </g>
+
+  <!-- 箭头：用户层 -> 编排层 -->
+  <path d="M 640 160 L 640 185" stroke="#00F5FF" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- ==================== 对话编排层 (LangGraph StateGraph) ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="190" width="1200" height="165" rx="12" fill="url(#orchestratorGrad)" opacity="0.95"/>
+    <text x="640" y="215" text-anchor="middle" font-size="15" fill="white" font-weight="bold">🔄 对话编排层 (LangGraph StateGraph)</text>
+    
+    <!-- 节点流程 -->
+    <rect x="55" y="235" width="105" height="55" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="107" y="258" text-anchor="middle" font-size="10" fill="#1565C0" font-weight="bold">Cache Check</text>
+    <text x="107" y="275" text-anchor="middle" font-size="9" fill="#333">智能缓存检查</text>
+    
+    <path d="M 160 262 L 180 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="185" y="235" width="105" height="55" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="237" y="258" text-anchor="middle" font-size="10" fill="#1565C0" font-weight="bold">Intent Node</text>
+    <text x="237" y="275" text-anchor="middle" font-size="9" fill="#333">意图识别</text>
+    
+    <path d="M 290 262 L 310 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="315" y="235" width="105" height="55" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="367" y="258" text-anchor="middle" font-size="10" fill="#1565C0" font-weight="bold">Planner Node</text>
+    <text x="367" y="275" text-anchor="middle" font-size="9" fill="#333">SQL 规划</text>
+    
+    <path d="M 420 262 L 440 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="445" y="235" width="105" height="55" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="497" y="258" text-anchor="middle" font-size="10" fill="#1565C0" font-weight="bold">Executor Node</text>
+    <text x="497" y="275" text-anchor="middle" font-size="9" fill="#333">SQL 执行</text>
+    
+    <path d="M 550 262 L 570 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="575" y="235" width="105" height="55" rx="6" fill="url(#diagnosisGrad)" opacity="0.95"/>
+    <text x="627" y="258" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Diagnoser ⭐</text>
+    <text x="627" y="275" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.9)">智能诊断</text>
+    
+    <path d="M 680 262 L 700 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="705" y="235" width="120" height="55" rx="6" fill="url(#diagnosisGrad)" opacity="0.95"/>
+    <text x="765" y="258" text-anchor="middle" font-size="10" fill="white" font-weight="bold">SchemaCompleter ⭐</text>
+    <text x="765" y="275" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.9)">Schema 补全</text>
+    
+    <path d="M 825 262 L 845 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="850" y="235" width="105" height="55" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="902" y="258" text-anchor="middle" font-size="10" fill="#1565C0" font-weight="bold">Analyzer Node</text>
+    <text x="902" y="275" text-anchor="middle" font-size="9" fill="#333">数据分析</text>
+    
+    <path d="M 955 262 L 975 262" stroke="#fff" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <rect x="980" y="235" width="105" height="55" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="1032" y="258" text-anchor="middle" font-size="10" fill="#1565C0" font-weight="bold">Responder Node</text>
+    <text x="1032" y="275" text-anchor="middle" font-size="9" fill="#333">响应生成</text>
+    
+    <rect x="1100" y="235" width="125" height="55" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="1162" y="258" text-anchor="middle" font-size="10" fill="white" font-weight="bold">Router 路由</text>
+    <text x="1162" y="275" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">条件分支控制</text>
+
+    <!-- 回路箭头 -->
+    <path d="M 627 290 C 627 320, 367 320, 367 290" stroke="#E91E63" stroke-width="2" fill="none" stroke-dasharray="5,3" marker-end="url(#arrowheadPink)"/>
+    <text x="497" y="335" text-anchor="middle" font-size="9" fill="#E91E63">诊断重试回路</text>
+  </g>
+
+  <!-- ==================== Agent 层 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="370" width="580" height="150" rx="12" fill="url(#agentGrad)" opacity="0.95"/>
+    <text x="330" y="395" text-anchor="middle" font-size="15" fill="white" font-weight="bold">🤖 Agent 层</text>
+    
+    <rect x="55" y="410" width="170" height="95" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="140" y="433" text-anchor="middle" font-size="11" fill="#EF6C00" font-weight="bold">IntentAgent</text>
+    <text x="140" y="450" text-anchor="middle" font-size="9" fill="#333">• 意图分类 (4类)</text>
+    <text x="140" y="465" text-anchor="middle" font-size="9" fill="#333">• 实体抽取</text>
+    <text x="140" y="480" text-anchor="middle" font-size="9" fill="#333">• Query 改写</text>
+    <text x="140" y="495" text-anchor="middle" font-size="9" fill="#333">• 筛选条件提取</text>
+    
+    <rect x="240" y="410" width="180" height="95" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="330" y="433" text-anchor="middle" font-size="11" fill="#EF6C00" font-weight="bold">SqlPlannerAgent</text>
+    <text x="330" y="450" text-anchor="middle" font-size="9" fill="#333">• 分层 Schema 召回</text>
+    <text x="330" y="465" text-anchor="middle" font-size="9" fill="#333">• 槽位分解检索</text>
+    <text x="330" y="480" text-anchor="middle" font-size="9" fill="#333">• SQL 生成 (MySQL 5.7)</text>
+    <text x="330" y="495" text-anchor="middle" font-size="9" fill="#333">• 值替换指令</text>
+    
+    <rect x="435" y="410" width="170" height="95" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="520" y="433" text-anchor="middle" font-size="11" fill="#EF6C00" font-weight="bold">ResponderAgent</text>
+    <text x="520" y="450" text-anchor="middle" font-size="9" fill="#333">• 结果解读</text>
+    <text x="520" y="465" text-anchor="middle" font-size="9" fill="#333">• 纠正说明</text>
+    <text x="520" y="480" text-anchor="middle" font-size="9" fill="#333">• 自然语言回复</text>
+    <text x="520" y="495" text-anchor="middle" font-size="9" fill="#333">• 多轮追问支持</text>
+  </g>
+
+  <!-- ==================== 智能诊断层 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="640" y="370" width="600" height="150" rx="12" fill="url(#diagnosisGrad)" opacity="0.95"/>
+    <text x="940" y="395" text-anchor="middle" font-size="15" fill="white" font-weight="bold">⭐ 智能诊断层 (核心创新)</text>
+    
+    <rect x="655" y="410" width="180" height="95" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="745" y="433" text-anchor="middle" font-size="11" fill="#AD1457" font-weight="bold">IntelligentAnalyzer</text>
+    <text x="745" y="450" text-anchor="middle" font-size="9" fill="#333">• 理解层诊断 (LLM)</text>
+    <text x="745" y="465" text-anchor="middle" font-size="9" fill="#333">• SQL构建层诊断 (CoT)</text>
+    <text x="745" y="480" text-anchor="middle" font-size="9" fill="#333">• 快速规则预检</text>
+    <text x="745" y="495" text-anchor="middle" font-size="9" fill="#333">• 问题分类与定位</text>
+    
+    <rect x="850" y="410" width="180" height="95" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="940" y="433" text-anchor="middle" font-size="11" fill="#AD1457" font-weight="bold">ResultValidator</text>
+    <text x="940" y="450" text-anchor="middle" font-size="9" fill="#333">• 语义完整性验证</text>
+    <text x="940" y="465" text-anchor="middle" font-size="9" fill="#333">• 筛选条件检查</text>
+    <text x="940" y="480" text-anchor="middle" font-size="9" fill="#333">• 遗漏检测</text>
+    <text x="940" y="495" text-anchor="middle" font-size="9" fill="#333">• 路径意图验证</text>
+    
+    <rect x="1045" y="410" width="180" height="95" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="1135" y="433" text-anchor="middle" font-size="11" fill="#AD1457" font-weight="bold">IntelligentProbe</text>
+    <text x="1135" y="450" text-anchor="middle" font-size="9" fill="#333">• LLM 语义扩展</text>
+    <text x="1135" y="465" text-anchor="middle" font-size="9" fill="#333">• 实体值探测</text>
+    <text x="1135" y="480" text-anchor="middle" font-size="9" fill="#333">• CoT 链式推理</text>
+    <text x="1135" y="495" text-anchor="middle" font-size="9" fill="#333">• 映射缓存</text>
+  </g>
+
+  <!-- ==================== 工具层 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="535" width="1200" height="130" rx="12" fill="url(#toolGrad)" opacity="0.95"/>
+    <text x="640" y="560" text-anchor="middle" font-size="15" fill="white" font-weight="bold">🔧 工具层 (BaseTool)</text>
+    
+    <rect x="55" y="575" width="215" height="75" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="162" y="598" text-anchor="middle" font-size="11" fill="#6A1B9A" font-weight="bold">VectorRetrievalTool</text>
+    <text x="162" y="615" text-anchor="middle" font-size="9" fill="#333">分层召回 V2 | 槽位分解</text>
+    <text x="162" y="630" text-anchor="middle" font-size="9" fill="#333">图路径补全 | FK自动补全</text>
+    
+    <rect x="285" y="575" width="215" height="75" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="392" y="598" text-anchor="middle" font-size="11" fill="#6A1B9A" font-weight="bold">SqlExecutorTool</text>
+    <text x="392" y="615" text-anchor="middle" font-size="9" fill="#333">MySQL 执行 | 结果解析</text>
+    <text x="392" y="630" text-anchor="middle" font-size="9" fill="#333">错误处理 | 超时控制</text>
+    
+    <rect x="515" y="575" width="215" height="75" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="622" y="598" text-anchor="middle" font-size="11" fill="#6A1B9A" font-weight="bold">GraphTraversalTool</text>
+    <text x="622" y="615" text-anchor="middle" font-size="9" fill="#333">JOIN 路径查询 | FK关系</text>
+    <text x="622" y="630" text-anchor="middle" font-size="9" fill="#333">Neo4j 知识图谱遍历</text>
+    
+    <rect x="745" y="575" width="215" height="75" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="852" y="598" text-anchor="middle" font-size="11" fill="#6A1B9A" font-weight="bold">SchemaCatalog</text>
+    <text x="852" y="615" text-anchor="middle" font-size="9" fill="#333">表/列元数据 | DDL缓存</text>
+    <text x="852" y="630" text-anchor="middle" font-size="9" fill="#333">枚举值缓存 | 注释解析</text>
+    
+    <rect x="975" y="575" width="250" height="75" rx="6" fill="rgba(255,255,255,0.95)"/>
+    <text x="1100" y="598" text-anchor="middle" font-size="11" fill="#6A1B9A" font-weight="bold">VizEngine + AnalyzerAgent</text>
+    <text x="1100" y="615" text-anchor="middle" font-size="9" fill="#333">图表类型决策 | ECharts 配置生成</text>
+    <text x="1100" y="630" text-anchor="middle" font-size="9" fill="#333">数据洞察 | 趋势分析</text>
+  </g>
+
+  <!-- ==================== 服务层 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="680" width="1200" height="85" rx="12" fill="url(#serviceGrad)" opacity="0.95"/>
+    <text x="640" y="705" text-anchor="middle" font-size="15" fill="white" font-weight="bold">⚙️ 服务层 (Services)</text>
+    
+    <rect x="60" y="720" width="170" height="35" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="145" y="743" text-anchor="middle" font-size="10" fill="white">CacheService (智能缓存)</text>
+    
+    <rect x="250" y="720" width="170" height="35" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="335" y="743" text-anchor="middle" font-size="10" fill="white">TermService (专业名词)</text>
+    
+    <rect x="440" y="720" width="170" height="35" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="525" y="743" text-anchor="middle" font-size="10" fill="white">AuthService (用户认证)</text>
+    
+    <rect x="630" y="720" width="170" height="35" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="715" y="743" text-anchor="middle" font-size="10" fill="white">VectorService (向量存储)</text>
+    
+    <rect x="820" y="720" width="190" height="35" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="915" y="743" text-anchor="middle" font-size="10" fill="white">ExecutionLogService (日志)</text>
+    
+    <rect x="1030" y="720" width="190" height="35" rx="6" fill="rgba(255,255,255,0.2)"/>
+    <text x="1125" y="743" text-anchor="middle" font-size="10" fill="white">GraphBuilderService (图谱)</text>
+  </g>
+
+  <!-- ==================== 数据存储层 ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="780" width="1200" height="90" rx="12" fill="url(#dataGrad)" opacity="0.95"/>
+    <text x="640" y="805" text-anchor="middle" font-size="15" fill="white" font-weight="bold">💾 数据存储层</text>
+    
+    <rect x="60" y="820" width="200" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="160" y="845" text-anchor="middle" font-size="11" fill="white" font-weight="bold">MySQL 业务库</text>
+    
+    <rect x="280" y="820" width="230" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="395" y="845" text-anchor="middle" font-size="11" fill="white" font-weight="bold">PostgreSQL + pgvector</text>
+    
+    <rect x="530" y="820" width="200" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="630" y="845" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Neo4j 知识图谱</text>
+    
+    <rect x="750" y="820" width="250" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="875" y="845" text-anchor="middle" font-size="11" fill="white" font-weight="bold">LLM API (Kimi/DashScope/OpenAI)</text>
+    
+    <rect x="1020" y="820" width="200" height="40" rx="6" fill="rgba(255,255,255,0.15)"/>
+    <text x="1120" y="845" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Memory (会话状态)</text>
+  </g>
+
+  <!-- ==================== 核心处理流程说明 ==================== -->
+  <g>
+    <rect x="40" y="885" width="1200" height="145" rx="12" fill="rgba(255,255,255,0.05)" stroke="rgba(0,245,255,0.3)" stroke-width="1"/>
+    <text x="640" y="910" text-anchor="middle" font-size="14" font-weight="bold" fill="#00F5FF">核心处理流程</text>
+    
+    <!-- 正常流程 -->
+    <circle cx="60" cy="940" r="6" fill="#00FF88"/>
+    <text x="80" y="945" font-size="12" fill="#00FF88" font-weight="bold">正常流程:</text>
+    <text x="180" y="945" font-size="11" fill="rgba(255,255,255,0.8)">Cache Check → Intent → Planner (分层召回+SQL生成) → Executor → Analyzer → Responder</text>
+    
+    <!-- 零结果诊断流程 -->
+    <circle cx="60" cy="970" r="6" fill="#E91E63"/>
+    <text x="80" y="975" font-size="12" fill="#E91E63" font-weight="bold">零结果诊断:</text>
+    <text x="200" y="975" font-size="11" fill="rgba(255,255,255,0.8)">Executor(数据=0) → Diagnoser → 实体提取 → LLM语义扩展探针 → 值映射 → Planner重写SQL</text>
+    
+    <!-- Schema 错误诊断 -->
+    <circle cx="60" cy="1000" r="6" fill="#FF9800"/>
+    <text x="80" y="1005" font-size="12" fill="#FF9800" font-weight="bold">Schema错误诊断:</text>
+    <text x="220" y="1005" font-size="11" fill="rgba(255,255,255,0.8)">Executor(表/列不存在) → 解析错误 → Diagnoser → SchemaCompleter → Planner重生成</text>
+  </g>
+
+  <!-- 版本和作者 -->
+  <text x="1240" y="1035" text-anchor="end" font-size="11" fill="rgba(255,255,255,0.3)">TalktoBI v2.0 | Based on Actual Codebase | CYJ</text>
+</svg>

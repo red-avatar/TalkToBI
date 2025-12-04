@@ -1,0 +1,2862 @@
+{
+  "database_name": "chatbi",
+  "tables": [
+    {
+      "name": "categories",
+      "comment": "商品类目表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "类目ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "category_id",
+              "分类ID",
+              "类目编号",
+              "商品类别标识",
+              "品类ID"
+            ],
+            "Business Meaning": "唯一标识电商平台中某个商品类目的主键，用于区分和关联不同商品分类（如服装、电子产品、家居等），支撑商品归类、导航菜单构建及类目维度的销售分析。",
+            "Common Questions": [
+              "这个商品属于哪个类目？",
+              "各类目的商品数量分别是多少？",
+              "哪些类目的销售额最高？"
+            ]
+          }
+        },
+        {
+          "name": "parent_id",
+          "data_type": "bigint",
+          "comment": "父类目ID，自关联 categories.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "parent_category_id",
+              "super_category_id",
+              "ancestor_id",
+              "category_parent",
+              "upper_category_id"
+            ],
+            "BusinessMeaning": "Identifies the immediate parent category in a hierarchical product categorization structure, enabling navigation and filtering of products by broader category groups (e.g., 'Electronics' as parent of 'Smartphones').",
+            "CommonQuestions": [
+              "What is the top-level category for a given subcategory?",
+              "How can I retrieve all child categories under a specific parent category?",
+              "Which products belong to categories that are descendants of a given parent category?"
+            ]
+          }
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(64)",
+          "comment": "类目名称，例如手机、家电",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "category name",
+              "product category",
+              "item type",
+              "classification name",
+              "department"
+            ],
+            "Business Meaning": "Represents the human-readable label of a product category in the e-commerce catalog, used to organize and navigate products (e.g., '手机' for mobile phones or '家电' for home appliances). This field supports product discovery, merchandising, and category-level performance analysis.",
+            "Common Questions": [
+              "What are the top-selling product categories this month?",
+              "How many items are listed under the '家电' category?",
+              "Can I filter products by category name on the website?"
+            ]
+          }
+        },
+        {
+          "name": "level",
+          "data_type": "tinyint",
+          "comment": "类目层级：1=一级类目，2=二级类目，3=三级类目",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "category_level",
+              "hierarchy_level",
+              "tier",
+              "classification_level",
+              "depth"
+            ],
+            "Business_Meaning": "Indicates the hierarchical depth of a product category within the e-commerce catalog structure, where level 1 represents top-level categories (e.g., Electronics), level 2 represents subcategories (e.g., Smartphones), and level 3 represents granular sub-subcategories (e.g., Android Phones). This field helps in organizing, navigating, and analyzing product assortments by category granularity.",
+            "Common_Questions": [
+              "How many top-level (level 1) categories do we have in our catalog?",
+              "Which products belong to third-level (level 3) categories?",
+              "What is the distribution of SKUs across different category levels?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "product categories",
+          "item classifications",
+          "merchandise types",
+          "category hierarchy",
+          "product taxonomy"
+        ],
+        "Business Meaning": "This table stores the hierarchical classification structure used to organize products in the e-commerce catalog, enabling navigation, filtering, and reporting by product type. It supports merchandising strategies, inventory segmentation, and customer browsing experiences.",
+        "Common Questions": [
+          "What are the top-level categories with the highest number of products?",
+          "How is the category tree structured for electronics?",
+          "Which subcategories fall under 'Women's Apparel'?"
+        ]
+      }
+    },
+    {
+      "name": "coupons",
+      "comment": "优惠券表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "优惠券ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "coupon_id",
+              "voucher_id",
+              "promo_code_id",
+              "discount_id",
+              "offer_id"
+            ],
+            "Business Meaning": "A unique identifier assigned to each coupon in the system, used to track and reference specific promotional offers or discounts provided to customers.",
+            "Common Questions": [
+              "Which coupon was used in a particular order?",
+              "How many times has a specific coupon been redeemed?",
+              "What is the performance of coupon ID X in terms of customer engagement?"
+            ]
+          }
+        },
+        {
+          "name": "code",
+          "data_type": "varchar(64)",
+          "comment": "券码，唯一标识一类券",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "coupon_code",
+              "voucher_code",
+              "promo_code",
+              "discount_code",
+              "redemption_code"
+            ],
+            "Business_Meaning": "A unique alphanumeric identifier assigned to a specific type of coupon or promotional offer, used to track, validate, and redeem discounts in e-commerce transactions.",
+            "Common_Questions": [
+              "How many times has a specific coupon code been redeemed?",
+              "Which coupon codes are associated with the highest conversion rates?",
+              "What is the expiration date for a given coupon code?"
+            ]
+          }
+        },
+        {
+          "name": "type",
+          "data_type": "enum",
+          "comment": "优惠类型: full_reduction=满减券, discount=折扣券",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "coupon_type",
+              "promotion_type",
+              "discount_type",
+              "offer_type",
+              "voucher_category"
+            ],
+            "Business_Meaning": "This column identifies the category of promotional offer associated with a coupon, such as whether it provides a fixed discount when a minimum spend threshold is met (full_reduction) or applies a percentage-based reduction (discount). It helps marketing and analytics teams segment and evaluate the performance of different promotional strategies.",
+            "Common_Questions": [
+              "What types of coupons are most frequently redeemed by customers?",
+              "How does the redemption rate differ between full reduction and discount coupons?",
+              "Which coupon type generates the highest average order value?"
+            ]
+          }
+        },
+        {
+          "name": "threshold_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "满减门槛金额，type=full_reduction 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "minimum_spend",
+              "spend_threshold",
+              "qualifying_amount",
+              "full_reduction_threshold",
+              "discount_threshold"
+            ],
+            "Business_Meaning": "The minimum purchase amount a customer must reach to qualify for a full-reduction (满减) coupon discount. This field is only applicable when the coupon type is 'full_reduction' and determines the spending hurdle required to unlock the associated discount.",
+            "Common_Questions": [
+              "What is the minimum order value needed to use this full-reduction coupon?",
+              "How many customers met the threshold amount for this promotion?",
+              "Which coupons have the lowest threshold_amount to encourage more redemptions?"
+            ]
+          }
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "满减优惠金额，type=full_reduction 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "满减金额",
+              "减免金额",
+              "优惠减免额",
+              "促销折扣额",
+              "满减折扣"
+            ],
+            "Business Meaning": "该字段表示当优惠券类型为满减（full_reduction）时，用户在订单中实际享受的金额减免值。它反映了促销活动中直接抵扣订单应付金额的部分，用于衡量满减类优惠券的财务影响和用户优惠力度。",
+            "Common Questions": [
+              "哪些订单使用了满减优惠？优惠金额是多少？",
+              "满减优惠券平均每次使用的折扣金额是多少？",
+              "满减优惠总金额对整体销售额的影响有多大？"
+            ]
+          }
+        },
+        {
+          "name": "discount_rate",
+          "data_type": "decimal(5, 2)",
+          "comment": "折扣比例，例如 0.90 表示 9 折，type=discount 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "discount_percentage",
+              "discount_factor",
+              "reduction_rate",
+              "sale_discount",
+              "price_discount_ratio"
+            ],
+            "Business_Meaning": "Represents the proportional discount applied to a product or order when a coupon of type 'discount' is used. A value of 0.90 means the customer pays 90% of the original price (i.e., a 10% discount). This metric is critical for analyzing promotional effectiveness, customer savings, and revenue impact of coupon campaigns.",
+            "Common_Questions": [
+              "What is the average discount rate offered by active coupons?",
+              "How does the discount rate affect redemption rates for different customer segments?",
+              "Which coupons have the highest discount rates and what is their usage frequency?"
+            ]
+          }
+        },
+        {
+          "name": "valid_from",
+          "data_type": "datetime",
+          "comment": "优惠券生效时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "生效日期",
+              "开始时间",
+              "启用时间",
+              "有效起始时间",
+              "优惠券起始日期"
+            ],
+            "BusinessMeaning": "表示优惠券开始生效的日期和时间，即从该时间点起用户可以使用该优惠券进行订单抵扣。此字段用于控制优惠券的有效期范围，是营销活动时间管理的关键数据。",
+            "CommonQuestions": [
+              "这张优惠券什么时候开始可以使用？",
+              "有哪些优惠券在今天刚刚生效？",
+              "如何筛选出未来一周内即将生效的优惠券？"
+            ]
+          }
+        },
+        {
+          "name": "valid_to",
+          "data_type": "datetime",
+          "comment": "优惠券失效时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "expiration_time",
+              "expiry_date",
+              "valid_until",
+              "coupon_end_time",
+              "inactive_after"
+            ],
+            "Business_Meaning": "The timestamp after which a coupon can no longer be redeemed or applied to a purchase. It defines the end of the coupon's validity period and is critical for enforcing promotional terms and preventing misuse of expired discounts.",
+            "Common_Questions": [
+              "When does this coupon expire?",
+              "Which coupons are still valid today?",
+              "How long is the validity period for this promotion?"
+            ]
+          }
+        },
+        {
+          "name": "scope",
+          "data_type": "enum",
+          "comment": "适用范围: all=全场通用, category=指定类目, product=指定商品, shop=指定店铺",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "applicability",
+              "coverage",
+              "validity_scope",
+              "usage_scope",
+              "target_type"
+            ],
+            "Business Meaning": "Indicates the scope of applicability for a coupon, specifying whether it can be used across the entire platform (all), within specific product categories (category), on individual products (product), or only in certain stores (shop). This field helps determine where and how a coupon can be redeemed, directly influencing marketing strategy and customer targeting.",
+            "Common Questions": [
+              "Which coupons are valid for the entire store?",
+              "Can this coupon be used on any product or only specific ones?",
+              "How many coupons are restricted to a particular shop or category?"
+            ]
+          }
+        },
+        {
+          "name": "shop_id",
+          "data_type": "bigint",
+          "comment": "适用店铺ID，对应 shops.id，仅当 scope=shop 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "store_id",
+              "merchant_id",
+              "outlet_id",
+              "retailer_id",
+              "shop_identifier"
+            ],
+            "BusinessMeaning": "Identifies the specific shop or store to which a coupon is applicable. This field links the coupon to a particular shop in the shops table and is only relevant when the coupon's scope is set to 'shop', meaning the coupon can only be used at that designated shop.",
+            "CommonQuestions": [
+              "Which shop can this coupon be used at?",
+              "How many coupons are active for a specific shop?",
+              "What is the redemption rate of coupons per shop?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "discount vouchers",
+          "promo codes",
+          "coupon codes",
+          "vouchers",
+          "promotional coupons"
+        ],
+        "Business Meaning": "This table stores information about promotional coupons offered to customers to incentivize purchases, including details such as coupon value, validity period, usage conditions, and redemption status. It supports marketing campaign tracking, customer engagement analysis, and discount management.",
+        "Common Questions": [
+          "How many coupons were redeemed last month?",
+          "What is the total discount amount applied through coupons in Q2?",
+          "Which coupon codes have the highest redemption rates?"
+        ]
+      }
+    },
+    {
+      "name": "dim_channel",
+      "comment": "渠道维度表",
+      "columns": [
+        {
+          "name": "channel_code",
+          "data_type": "varchar(32)",
+          "comment": "渠道编码，例如 web/app/mini_program",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "channel_id",
+              "platform_code",
+              "traffic_source",
+              "distribution_channel",
+              "sales_channel"
+            ],
+            "BusinessMeaning": "Identifies the specific customer acquisition or interaction channel through which users engage with the e-commerce platform, such as web browser, mobile app, or mini program. This field enables segmentation and performance analysis across different digital touchpoints.",
+            "CommonQuestions": [
+              "Which channel generates the most orders?",
+              "How does user retention differ between the app and web channels?",
+              "What is the conversion rate for the mini_program channel compared to other channels?"
+            ]
+          }
+        },
+        {
+          "name": "channel_name",
+          "data_type": "varchar(64)",
+          "comment": "渠道名称，例如官网、App、小程序",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "渠道来源",
+              "流量渠道",
+              "销售通道",
+              "营销渠道",
+              "平台来源"
+            ],
+            "Business Meaning": "该字段标识用户访问或完成交易的来源渠道，用于区分不同获客或销售渠道（如官网、移动App、微信小程序等），是分析用户行为路径、渠道转化效率和营销效果的关键维度。",
+            "Common Questions": [
+              "各渠道的订单量占比是多少？",
+              "哪个渠道带来的用户转化率最高？",
+              "过去30天内，App和小程序的销售额对比如何？"
+            ]
+          }
+        },
+        {
+          "name": "channel_type",
+          "data_type": "varchar(32)",
+          "comment": "渠道类型，例如 owned/paid/organic",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "channel category",
+              "traffic source type",
+              "marketing channel",
+              "acquisition channel",
+              "channel origin"
+            ],
+            "Business Meaning": "Identifies the classification of marketing or traffic channels through which users arrive at the e-commerce platform, distinguishing between owned (e.g., company website, email), paid (e.g., paid ads, sponsored content), and organic (e.g., unpaid search, direct visits) sources. This helps in evaluating channel performance and allocating marketing budgets effectively.",
+            "Common Questions": [
+              "What is the conversion rate by channel type?",
+              "Which channel type drives the most revenue?",
+              "How does customer acquisition cost vary across different channel types?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "销售渠道",
+          "营销渠道",
+          "分销渠道",
+          "推广渠道",
+          "流量来源"
+        ],
+        "BusinessMeaning": "该表存储电商平台中所有可用的销售或营销渠道信息，用于标识和分类客户通过哪些途径（如线上广告、社交媒体、线下门店、合作伙伴等）接触到或完成购买行为。它是分析渠道效果、归因营销投入和优化资源分配的关键维度。",
+        "CommonQuestions": [
+          "哪些渠道带来的销售额最高？",
+          "不同营销渠道的转化率分别是多少？",
+          "上个月通过社交媒体渠道获取的新客户数量是多少？"
+        ]
+      }
+    },
+    {
+      "name": "dim_region",
+      "comment": "地区维度表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "地区维度ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "region_id",
+              "area_id",
+              "location_id",
+              "geo_id",
+              "territory_id"
+            ],
+            "BusinessMeaning": "A unique identifier assigned to each geographic region in the dimension table, used to link sales, customer, or operational data to specific regions for reporting and analysis purposes.",
+            "CommonQuestions": [
+              "What is the total sales by region?",
+              "How many customers are located in each region?",
+              "Which region has the highest order volume?"
+            ]
+          }
+        },
+        {
+          "name": "country",
+          "data_type": "varchar(64)",
+          "comment": "国家名称，例如中国",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "nation",
+              "country name",
+              "territory",
+              "sovereign state",
+              "geographic region"
+            ],
+            "BusinessMeaning": "Represents the full name of the country associated with a specific geographic region in the e-commerce platform, used for segmentation, localization, compliance, and market analysis.",
+            "CommonQuestions": [
+              "Which countries do our customers come from?",
+              "How does sales performance vary by country?",
+              "What are the top 5 countries by order volume?"
+            ]
+          }
+        },
+        {
+          "name": "province",
+          "data_type": "varchar(64)",
+          "comment": "省/州，例如浙江省",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "province",
+              "state",
+              "administrative region",
+              "territory",
+              "prefecture"
+            ],
+            "Business Meaning": "Represents the first-level administrative division (such as a province or state) within a country where customers, warehouses, or business operations are located. Used for regional segmentation, logistics planning, and localized marketing analysis.",
+            "Common Questions": [
+              "Which provinces generate the highest sales volume?",
+              "How does customer distribution vary by province?",
+              "What is the average delivery time per province?"
+            ]
+          }
+        },
+        {
+          "name": "city",
+          "data_type": "varchar(64)",
+          "comment": "城市名称，例如杭州市",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "城市",
+              "都市",
+              "市区",
+              "城镇",
+              "所在地"
+            ],
+            "Business Meaning": "表示用户、仓库或业务运营所在的具体城市名称，用于地域维度分析、物流覆盖评估、区域销售表现等业务场景。",
+            "Common Questions": [
+              "哪些城市的销售额最高？",
+              "杭州市的订单履约时效如何？",
+              "我们在哪些城市设有仓储中心？"
+            ]
+          }
+        },
+        {
+          "name": "city_level",
+          "data_type": "enum",
+          "comment": "城市等级: tier1=一线城市, tier2=新一线/二线城市, tier3=三线城市, other=其他",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "synonyms": [
+              "city_tier",
+              "urban_tier",
+              "city_classification",
+              "metropolitan_level",
+              "city_category"
+            ],
+            "business_meaning": "Represents the hierarchical classification of cities based on economic development, population size, consumer spending power, and strategic importance in the Chinese market. This segmentation helps tailor marketing strategies, logistics planning, pricing models, and inventory allocation by city tier.",
+            "common_questions": [
+              "What is the distribution of our customers across different city tiers?",
+              "How do sales performance and conversion rates vary between tier-1 and tier-3 cities?",
+              "Which city tier shows the highest growth in new user acquisition this quarter?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "region",
+          "geographic area",
+          "location",
+          "territory",
+          "market"
+        ],
+        "Business Meaning": "The dim_region table contains standardized geographic and administrative information used to categorize and analyze customer, sales, or operational data by location. It enables regional segmentation for reporting, marketing, logistics, and performance tracking across different areas such as countries, states, provinces, or cities.",
+        "Common Questions": [
+          "What are the top-performing regions by sales revenue?",
+          "How does customer engagement vary across different geographic territories?",
+          "Which regions have the highest return rates or delivery delays?"
+        ]
+      }
+    },
+    {
+      "name": "logistics_providers",
+      "comment": "物流承运商表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "物流承运商ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "synonyms": [
+              "carrier_id",
+              "shipping_provider_id",
+              "logistics_vendor_id",
+              "transporter_id",
+              "delivery_partner_id"
+            ],
+            "business_meaning": "唯一标识物流承运商的内部编号，用于在系统中区分和关联不同的第三方物流服务提供商，支持订单履约、运费计算及物流绩效分析等业务流程。",
+            "common_questions": [
+              "哪些物流承运商负责我们最多的订单？",
+              "某个特定承运商（ID为X）的平均配送时效是多少？",
+              "如何根据物流承运商ID追踪某笔订单的配送状态？"
+            ]
+          }
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(64)",
+          "comment": "物流承运商名称，例如顺丰、中通",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "carrier name",
+              "shipping company",
+              "logistics vendor",
+              "delivery service provider",
+              "courier name"
+            ],
+            "BusinessMeaning": "The official or commonly used name of the third-party logistics company responsible for shipping and delivering customer orders, such as SF Express or ZTO Express. This field is used to identify and track which carrier is handling fulfillment for specific shipments, enabling performance analysis, cost allocation, and service-level monitoring.",
+            "CommonQuestions": [
+              "Which logistics providers do we currently use for order fulfillment?",
+              "What is the on-time delivery rate for each carrier like SF Express or ZTO?",
+              "How much do we spend monthly on each shipping company?"
+            ]
+          }
+        },
+        {
+          "name": "code",
+          "data_type": "varchar(32)",
+          "comment": "承运商编码，内部统一标识",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "carrier_code",
+              "logistics_id",
+              "provider_code",
+              "shipping_partner_code",
+              "vendor_code"
+            ],
+            "Business_Meaning": "A unique internal identifier assigned to each logistics service provider (carrier) to standardize and distinguish them across the e-commerce platform's shipping and fulfillment operations.",
+            "Common_Questions": [
+              "Which carrier is handling this shipment?",
+              "How many orders were shipped using carrier code XYZ?",
+              "What is the performance of logistics provider with code ABC in terms of on-time delivery?"
+            ]
+          }
+        },
+        {
+          "name": "contact_phone",
+          "data_type": "varchar(20)",
+          "comment": "客服电话/联系号码",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "客服电话",
+              "联系电话",
+              "服务热线",
+              "承运商电话",
+              "物流联系号码"
+            ],
+            "Business Meaning": "该字段存储物流承运商的官方客服或业务联系用电话号码，用于在订单履约、异常处理或客户咨询时与承运商进行沟通协调。",
+            "Common Questions": [
+              "这家物流公司的客服电话是多少？",
+              "如何联系负责我订单的承运商？",
+              "哪个物流承运商提供24小时客服支持？"
+            ]
+          }
+        },
+        {
+          "name": "service_level",
+          "data_type": "enum",
+          "comment": "服务等级: standard=标准快递, express=加急快递, same_day=当日达, economy=经济快递",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipping_tier",
+              "delivery_speed",
+              "fulfillment_class",
+              "courier_service_type",
+              "logistics_priority"
+            ],
+            "Business_Meaning": "Indicates the speed and cost tier of the delivery service offered by a logistics provider, which directly impacts customer delivery expectations, shipping costs, and fulfillment strategy. Common levels include standard (basic), express (faster), same_day (urgent), and economy (budget).",
+            "Common_Questions": [
+              "Which logistics providers offer same-day delivery?",
+              "What is the most commonly used service level across all orders?",
+              "How does the choice of service level affect delivery performance and customer satisfaction?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "shipping carriers",
+          "delivery vendors",
+          "transportation providers",
+          "courier services",
+          "freight companies"
+        ],
+        "BusinessMeaning": "This table contains information about third-party logistics partners responsible for shipping and delivering products to customers. It includes details such as provider names, service types, coverage regions, and performance metrics, enabling the business to manage carrier relationships, optimize delivery routes, and track fulfillment efficiency.",
+        "CommonQuestions": [
+          "Which logistics provider has the fastest delivery time in the Northeast region?",
+          "How many orders were shipped using each carrier last month?",
+          "What is the cost per shipment for each logistics provider?"
+        ]
+      }
+    },
+    {
+      "name": "order_coupons",
+      "comment": "订单用券表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "订单用券记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "order_coupon_record_id",
+              "coupon_usage_id",
+              "discount_record_id",
+              "promotion_id",
+              "voucher_transaction_id"
+            ],
+            "BusinessMeaning": "A unique identifier for each record that tracks the usage of a coupon or promotional voucher in an order. This ID links specific coupon applications to individual orders, enabling analysis of discount effectiveness, customer redemption behavior, and campaign performance.",
+            "CommonQuestions": [
+              "Which coupon was used in a specific order?",
+              "How many times has a particular coupon been redeemed?",
+              "What is the total discount amount applied through coupons for a given time period?"
+            ]
+          }
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单编号",
+              "交易ID",
+              "销售单号",
+              "purchase_id",
+              "transaction_id"
+            ],
+            "Business Meaning": "唯一标识一笔客户订单的主键，用于关联订单主表（orders）与订单用券记录（order_coupons），确保每张优惠券使用行为可追溯至具体订单，支撑营销效果分析、用户行为追踪及财务对账等业务场景。",
+            "Common Questions": [
+              "哪些订单使用了优惠券？",
+              "某张优惠券被用于哪个订单？",
+              "订单ID为12345的用券记录是什么？"
+            ]
+          }
+        },
+        {
+          "name": "coupon_id",
+          "data_type": "bigint",
+          "comment": "优惠券ID，对应 coupons.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "voucher_id",
+              "promo_code_id",
+              "discount_coupon_id",
+              "coupon_code_id",
+              "offer_id"
+            ],
+            "Business Meaning": "Identifies the specific coupon applied to an order, linking the usage record in the order_coupons table to the master coupon definition in the coupons table. This enables tracking of which promotional offers customers used during checkout, supporting campaign performance analysis and discount attribution.",
+            "Common Questions": [
+              "Which coupons were most frequently used in orders last month?",
+              "How much revenue was generated from orders that used a specific coupon?",
+              "What is the redemption rate for a particular promotional campaign?"
+            ]
+          }
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "该券在此订单上的实际优惠金额",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "discount_value",
+              "coupon_discount",
+              "applied_discount",
+              "savings_amount",
+              "voucher_amount"
+            ],
+            "Business_Meaning": "The actual monetary amount discounted from an order due to the application of a coupon. This reflects the real financial benefit provided to the customer and directly impacts net revenue calculation.",
+            "Common_Questions": [
+              "How much discount was applied to this order using coupons?",
+              "What is the total savings customers received from coupons in the last month?",
+              "Which coupon provided the highest discount amount on a single order?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "订单优惠券表",
+          "优惠券使用记录",
+          "促销券关联订单",
+          "折扣券应用表",
+          "订单促销绑定表"
+        ],
+        "Business Meaning": "该表记录了客户在下单过程中所使用的优惠券信息，包括优惠券与订单的关联关系，用于追踪促销活动效果、计算实际支付金额以及分析用户对优惠策略的响应行为。",
+        "Common Questions": [
+          "哪些订单使用了优惠券？",
+          "某张优惠券被用于多少个订单？",
+          "使用优惠券的订单平均折扣率是多少？"
+        ]
+      }
+    },
+    {
+      "name": "order_items",
+      "comment": "订单明细表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "订单明细ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "order_item_id",
+              "line_item_id",
+              "item_sequence_number",
+              "order_detail_id",
+              "product_line_id"
+            ],
+            "BusinessMeaning": "A unique identifier for each individual line item within a customer order, used to track specific products, quantities, and pricing associated with a single order transaction.",
+            "CommonQuestions": [
+              "What is the unique ID for each item in an order?",
+              "How can I trace a specific product entry within an order?",
+              "Which line item corresponds to this returned product?"
+            ]
+          }
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单编号",
+              "交易ID",
+              "销售单号",
+              "purchase_id",
+              "transaction_id"
+            ],
+            "Business Meaning": "唯一标识一笔客户订单的编号，用于关联订单主表（orders）与订单明细表（order_items），支持订单追踪、履约分析和销售归因。",
+            "Common Questions": [
+              "这个订单明细属于哪个订单？",
+              "如何通过订单ID查询所有相关的商品明细？",
+              "哪些订单ID对应的订单包含促销商品？"
+            ]
+          }
+        },
+        {
+          "name": "product_id",
+          "data_type": "bigint",
+          "comment": "商品ID，对应 products.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "商品编号",
+              "产品ID",
+              "SKU",
+              "货品标识",
+              "商品唯一码"
+            ],
+            "Business Meaning": "该字段表示订单明细中所包含的具体商品的唯一标识符，用于关联订单项与商品主数据表（products），从而支持商品维度的销售分析、库存追踪和订单履约等业务流程。",
+            "Common Questions": [
+              "哪些商品在最近一个月销量最高？",
+              "某个特定商品被包含在多少个订单中？",
+              "每个订单项对应的商品信息是什么？"
+            ]
+          }
+        },
+        {
+          "name": "quantity",
+          "data_type": "integer",
+          "comment": "购买数量",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "购买数量",
+              "订购数量",
+              "商品数量",
+              "下单数量",
+              "件数"
+            ],
+            "Business Meaning": "表示客户在单个订单明细中所购买的商品数量，用于衡量销售量、库存消耗及订单履行情况。",
+            "Common Questions": [
+              "每个订单中各商品的购买数量是多少？",
+              "哪些商品的购买数量最多？",
+              "平均每个订单的购买数量是多少？"
+            ]
+          }
+        },
+        {
+          "name": "unit_price",
+          "data_type": "decimal(18, 2)",
+          "comment": "成交单价，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "成交单价",
+              "销售单价",
+              "商品单价",
+              "售价",
+              "单位售价"
+            ],
+            "BusinessMeaning": "该字段表示在订单明细中每个商品的实际成交价格，即顾客为单个商品支付的金额（以人民币元为单位），已包含任何折扣或促销优惠后的最终价格。",
+            "CommonQuestions": [
+              "每个商品的平均成交单价是多少？",
+              "哪些商品的成交单价高于100元？",
+              "成交单价与商品原价之间的差额反映了哪些促销活动的效果？"
+            ]
+          }
+        },
+        {
+          "name": "subtotal_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "明细小计金额，quantity * unit_price",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "line_total",
+              "item_subtotal",
+              "product_amount",
+              "extended_price",
+              "quantity_price_total"
+            ],
+            "Business_Meaning": "The subtotal amount for a specific line item in an order, calculated as the product of the ordered quantity and the unit price. It represents the gross value of that item before any discounts, taxes, or shipping fees are applied.",
+            "Common_Questions": [
+              "What is the total value of each item in an order before discounts?",
+              "How much revenue does each product generate at the line-item level?",
+              "Which order items have the highest subtotal amounts?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "订单行项目",
+          "销售明细",
+          "商品订单项",
+          "订单产品明细",
+          "交易明细"
+        ],
+        "Business Meaning": "该表记录了每个订单中包含的具体商品或服务条目，包括所购商品、数量、单价、折扣等详细信息，用于追踪客户购买行为、计算销售收入及支持库存与履约分析。",
+        "Common Questions": [
+          "每个订单中包含了哪些商品？",
+          "某商品在最近一个月的销量是多少？",
+          "订单中的商品平均售价是多少？"
+        ]
+      }
+    },
+    {
+      "name": "orders",
+      "comment": "订单表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "订单ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单编号",
+              "交易ID",
+              "销售单号",
+              "购买记录ID",
+              "订单标识"
+            ],
+            "Business Meaning": "唯一标识一笔客户下单记录的主键，在整个订单生命周期中用于追踪、查询和关联该订单相关的支付、物流及售后信息。",
+            "Common Questions": [
+              "如何根据订单ID查询订单状态？",
+              "这个订单ID对应的客户是谁？",
+              "订单ID为12345的商品有哪些？"
+            ]
+          }
+        },
+        {
+          "name": "order_no",
+          "data_type": "varchar(64)",
+          "comment": "订单号，业务唯一编码",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单编号",
+              "交易号",
+              "销售单号",
+              "采购单号",
+              "业务单据号"
+            ],
+            "Business Meaning": "该字段表示电商系统中每笔订单的唯一业务标识符，用于追踪、查询和管理客户下单记录，确保订单在整个履约流程中的可追溯性和唯一性。",
+            "Common Questions": [
+              "如何根据订单号查询订单状态？",
+              "这个订单号对应的客户是谁？",
+              "订单号为123456789的订单包含哪些商品？"
+            ]
+          }
+        },
+        {
+          "name": "user_id",
+          "data_type": "bigint",
+          "comment": "下单用户ID，对应 users.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "customer_id",
+              "buyer_id",
+              "shopper_id",
+              "account_id",
+              "user_identifier"
+            ],
+            "BusinessMeaning": "Identifies the unique customer who placed the order; used to link order records to customer profiles for analysis of purchasing behavior, customer lifetime value, and personalization.",
+            "CommonQuestions": [
+              "Which user placed this order?",
+              "How many orders has a specific user made?",
+              "What is the total spending of a particular user across all orders?"
+            ]
+          }
+        },
+        {
+          "name": "shop_id",
+          "data_type": "bigint",
+          "comment": "所属店铺ID，对应 shops.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "store_id",
+              "merchant_id",
+              "vendor_id",
+              "retailer_id",
+              "outlet_id"
+            ],
+            "BusinessMeaning": "Identifies the specific shop or store that fulfilled or is associated with the order. This links each order to its originating business entity within the e-commerce platform, enabling analysis by seller, performance tracking per shop, and operational reporting.",
+            "CommonQuestions": [
+              "Which shop processed this order?",
+              "How many orders did a specific shop receive last month?",
+              "What is the total sales volume per shop?"
+            ]
+          }
+        },
+        {
+          "name": "order_channel_code",
+          "data_type": "varchar(32)",
+          "comment": "下单渠道编码，对应 dim_channel.channel_code",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "order_channel",
+              "sales_channel_code",
+              "purchase_channel_id",
+              "channel_source",
+              "ordering_platform"
+            ],
+            "BusinessMeaning": "Identifies the specific sales channel through which a customer placed an order, such as mobile app, web, in-store, or third-party marketplace. This code links to the dimension table dim_channel for detailed channel attributes and is used to analyze performance across different customer acquisition and ordering platforms.",
+            "CommonQuestions": [
+              "Which sales channel generates the most orders?",
+              "How does average order value differ by ordering platform?",
+              "What is the month-over-month growth in orders from the mobile app channel?"
+            ]
+          }
+        },
+        {
+          "name": "shipping_region_id",
+          "data_type": "bigint",
+          "comment": "收货地区ID，对应 dim_region.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "delivery_region_id",
+              "destination_region_id",
+              "shipping_area_id",
+              "fulfillment_region_id"
+            ],
+            "BusinessMeaning": "Identifies the geographic region where the customer's order is to be delivered. This ID links to the dimension table dim_region to provide detailed regional information such as country, state, or city for logistics, shipping cost calculation, and regional sales analysis.",
+            "CommonQuestions": [
+              "Which regions have the highest number of orders?",
+              "What is the average shipping cost per region?",
+              "How does delivery time vary by shipping region?"
+            ]
+          }
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "订单状态: created=已创建/待付款, paid=已付款/待发货, shipped=已发货, completed=已完成, cancelled=已取消, refunded=已退款",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "order_status",
+              "fulfillment_status",
+              "transaction_state",
+              "payment_status",
+              "shipment_status"
+            ],
+            "Business_Meaning": "Represents the current stage of an order in the e-commerce fulfillment lifecycle, indicating whether the order is pending payment, paid and awaiting shipment, shipped, completed, cancelled, or refunded. This field is critical for tracking order progress, managing inventory allocation, customer service inquiries, and analyzing fulfillment efficiency.",
+            "Common_Questions": [
+              "How many orders are currently in 'shipped' status?",
+              "What percentage of orders were cancelled before fulfillment?",
+              "Can I see all completed orders from last month?"
+            ]
+          }
+        },
+        {
+          "name": "total_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "订单商品总金额（未扣减优惠）",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单总额",
+              "商品总金额",
+              "未折扣总额",
+              "原始订单金额",
+              "总消费金额"
+            ],
+            "Business Meaning": "该字段表示订单中所有商品的原始总金额，未扣除任何优惠、折扣、促销或运费。它反映了顾客在应用任何减免前应支付的商品总价，常用于计算折扣率、分析促销效果及核算毛收入。",
+            "Common Questions": [
+              "每个订单的原始商品总金额是多少？",
+              "未使用优惠券前的订单总额是多少？",
+              "如何计算订单的折扣比例？（需用到 total_amount 和实际支付金额）"
+            ]
+          }
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "订单总优惠金额",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "synonyms": [
+              "discount_total",
+              "total_discount",
+              "order_discount",
+              "promotion_amount",
+              "savings"
+            ],
+            "business_meaning": "The total monetary value of all discounts applied to an order, including promotional offers, coupon redemptions, and other price reductions. This metric helps businesses assess the impact of discounting strategies on revenue and customer acquisition.",
+            "common_questions": [
+              "What is the total discount given on this order?",
+              "How much revenue was lost due to discounts in the last quarter?",
+              "Which orders had the highest discount amounts?"
+            ]
+          }
+        },
+        {
+          "name": "pay_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "订单实付金额（total_amount - discount_amount）",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "net_payment",
+              "actual_payment",
+              "paid_amount",
+              "final_payment",
+              "amount_paid"
+            ],
+            "Business_Meaning": "The actual amount paid by the customer for an order after applying all discounts, representing the net revenue received from that transaction.",
+            "Common_Questions": [
+              "What is the total amount customers actually paid after discounts?",
+              "How much revenue was generated from orders after accounting for promotions?",
+              "Which orders have the highest net payment amounts?"
+            ]
+          }
+        },
+        {
+          "name": "created_at",
+          "data_type": "datetime",
+          "comment": "下单时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "下单时间",
+              "订单创建时间",
+              "购买时间",
+              "交易时间",
+              "订单生成时间"
+            ],
+            "BusinessMeaning": "记录客户在电商平台提交订单的确切时间，用于分析用户购买行为、订单时效性、销售趋势以及作为其他时间维度（如发货、配送）的基准参考点。",
+            "CommonQuestions": [
+              "最近30天内每天的订单量是多少？",
+              "哪个时间段用户的下单最活跃？",
+              "订单创建时间与发货时间之间的平均间隔是多久？"
+            ]
+          }
+        },
+        {
+          "name": "paid_at",
+          "data_type": "datetime",
+          "comment": "支付时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment_time",
+              "payment_timestamp",
+              "transaction_time",
+              "checkout_time",
+              "order_payment_date"
+            ],
+            "Business_Meaning": "The exact date and time when a customer successfully completed payment for an order, marking the transition of the order from pending to confirmed status. This timestamp is critical for measuring payment conversion rates, analyzing sales timing patterns, and calculating fulfillment lead times.",
+            "Common_Questions": [
+              "When was the last order paid?",
+              "How many orders were paid today?",
+              "What is the average time between order creation and payment?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "sales",
+          "transactions",
+          "purchases",
+          "customer orders",
+          "order records"
+        ],
+        "BusinessMeaning": "The orders table captures all customer purchase transactions, including order identifiers, timestamps, customer associations, and order status. It serves as the central record of commercial activity, enabling analysis of sales volume, customer behavior, fulfillment performance, and revenue trends.",
+        "CommonQuestions": [
+          "How many orders were placed last month?",
+          "What is the average order value by customer segment?",
+          "Which products appear most frequently in completed orders?"
+        ]
+      }
+    },
+    {
+      "name": "payments",
+      "comment": "支付记录表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "支付记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment_id",
+              "transaction_id",
+              "payment_record_id",
+              "payment_reference",
+              "payment_number"
+            ],
+            "Business Meaning": "A unique identifier assigned to each payment record in the system, used to track and reference individual customer payments across the e-commerce platform.",
+            "Common Questions": [
+              "What is the payment ID for this order?",
+              "Can you look up the payment details using the payment ID?",
+              "How many unique payments were processed yesterday?"
+            ]
+          }
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "对应订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单编号",
+              "交易ID",
+              "销售单号",
+              "purchase_order_id",
+              "transaction_reference"
+            ],
+            "BusinessMeaning": "唯一标识一笔客户订单的编号，用于关联支付记录与具体的订单信息。在支付表中，该字段用于追踪每笔支付所对应的原始订单，支持对账、退款、订单履约及客户行为分析等关键业务流程。",
+            "CommonQuestions": [
+              "这笔支付对应的是哪个订单？",
+              "某个订单是否已完成支付？",
+              "查找所有与特定订单相关的支付记录。"
+            ]
+          }
+        },
+        {
+          "name": "pay_method",
+          "data_type": "enum",
+          "comment": "支付方式: alipay=支付宝, wechat=微信支付, card=银行卡, other=其他方式",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment_method",
+              "payment_type",
+              "checkout_method",
+              "transaction_payment",
+              "funding_source"
+            ],
+            "Business_Meaning": "Indicates the method used by a customer to complete a payment transaction, which helps in analyzing customer payment preferences, optimizing checkout experiences, and managing payment gateway performance.",
+            "Common_Questions": [
+              "What is the most popular payment method among our customers?",
+              "How many transactions were made using WeChat Pay last month?",
+              "What percentage of orders use Alipay versus credit cards?"
+            ]
+          }
+        },
+        {
+          "name": "pay_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "支付金额，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment amount",
+              "transaction value",
+              "paid sum",
+              "settlement amount",
+              "order payment"
+            ],
+            "Business Meaning": "The actual monetary amount paid by the customer to complete a transaction, recorded in Chinese Yuan (CNY). This reflects the final amount transferred after any discounts, promotions, or adjustments have been applied, and is a key metric for revenue tracking and financial reconciliation.",
+            "Common Questions": [
+              "What was the total payment amount for orders placed last month?",
+              "How much did customers pay on average per transaction?",
+              "Which payment records have a pay_amount greater than 1000 yuan?"
+            ]
+          }
+        },
+        {
+          "name": "pay_status",
+          "data_type": "enum",
+          "comment": "支付状态: pending=待支付, success=支付成功, failed=支付失败",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment_status",
+              "transaction_status",
+              "payment_result",
+              "checkout_status",
+              "order_payment_state"
+            ],
+            "BusinessMeaning": "Indicates the current state of a payment transaction in the e-commerce system, reflecting whether a customer has successfully completed payment, is yet to pay, or encountered a failure during the payment process. This field is critical for order fulfillment, financial reconciliation, and customer support workflows.",
+            "CommonQuestions": [
+              "How many orders are still pending payment?",
+              "What is the success rate of payments over the last 30 days?",
+              "Which failed payments require follow-up with customers?"
+            ]
+          }
+        },
+        {
+          "name": "paid_at",
+          "data_type": "datetime",
+          "comment": "支付完成时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment completion time",
+              "transaction settlement time",
+              "payment timestamp",
+              "order paid time",
+              "checkout completion time"
+            ],
+            "Business Meaning": "The exact date and time when a customer's payment for an order was successfully processed and confirmed, marking the transition of the order to a paid status. This timestamp is critical for revenue recognition, fulfillment scheduling, and analyzing payment conversion rates.",
+            "Common Questions": [
+              "When was this order paid?",
+              "How long does it take customers to complete payment after placing an order?",
+              "What is the distribution of payment completion times by hour or day?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "payment transactions",
+          "payment history",
+          "transaction records",
+          "payment logs",
+          "financial settlements"
+        ],
+        "Business Meaning": "This table stores detailed records of all payment activities made by customers during their purchase journeys, including payment methods, amounts, timestamps, and statuses. It is critical for tracking revenue inflows, reconciling financial transactions, analyzing payment success/failure rates, and supporting customer service inquiries related to billing.",
+        "Common Questions": [
+          "What is the total payment amount received in the last 30 days?",
+          "How many failed payments occurred last week and what were the reasons?",
+          "Which payment method is most commonly used by customers?"
+        ]
+      }
+    },
+    {
+      "name": "products",
+      "comment": "商品表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "商品ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "product_id",
+              "item_id",
+              "sku_id",
+              "goods_id",
+              "catalog_id"
+            ],
+            "Business Meaning": "A unique identifier assigned to each distinct product in the e-commerce catalog, used to track, reference, and manage inventory, sales, and customer interactions related to that specific product.",
+            "Common Questions": [
+              "What is the product ID for this item?",
+              "How many units of product ID 12345 were sold last month?",
+              "Can I look up product details using its ID?"
+            ]
+          }
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(128)",
+          "comment": "商品名称",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "product name",
+              "item title",
+              "merchandise name",
+              "SKU name",
+              "product title"
+            ],
+            "Business Meaning": "The human-readable identifier of a product as displayed to customers; used for search, filtering, and product recognition in marketing, sales, and inventory management.",
+            "Common Questions": [
+              "What are the top-selling products by name?",
+              "How many products have 'wireless' in their name?",
+              "Can I find all products with names containing 'premium edition'?"
+            ]
+          }
+        },
+        {
+          "name": "category_id",
+          "data_type": "bigint",
+          "comment": "所属类目ID，对应 categories.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "category identifier",
+              "product category ID",
+              "item category code",
+              "classification ID",
+              "catalog category ID"
+            ],
+            "Business Meaning": "Identifies the specific product category to which a given item belongs, enabling segmentation, filtering, and analysis of products by type (e.g., electronics, apparel, home goods). This field links each product to its corresponding entry in the categories table for consistent taxonomy and reporting.",
+            "Common Questions": [
+              "Which category does this product belong to?",
+              "How many products are listed under each category?",
+              "What is the top-selling category based on product count or sales?"
+            ]
+          }
+        },
+        {
+          "name": "shop_id",
+          "data_type": "bigint",
+          "comment": "所属店铺ID，对应 shops.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "store_id",
+              "merchant_id",
+              "vendor_id",
+              "retailer_id",
+              "outlet_id"
+            ],
+            "BusinessMeaning": "Identifies the specific shop or store that owns or sells the product. This field links each product to its associated seller in a multi-vendor e-commerce platform, enabling analysis by seller performance, inventory ownership, and storefront attribution.",
+            "CommonQuestions": [
+              "Which shop sells this product?",
+              "How many products does each shop have in the catalog?",
+              "What is the total sales volume per shop?"
+            ]
+          }
+        },
+        {
+          "name": "brand",
+          "data_type": "varchar(64)",
+          "comment": "品牌名称",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "brand name",
+              "manufacturer",
+              "trademark",
+              "label",
+              "make"
+            ],
+            "Business Meaning": "The brand column identifies the manufacturer or trademark under which a product is marketed and sold. It is used to categorize products by their originating company or label, enabling brand-level performance analysis, inventory segmentation, and customer preference tracking.",
+            "Common Questions": [
+              "Which brands generate the highest sales revenue?",
+              "How many products do we carry for each brand?",
+              "What is the average customer rating by brand?"
+            ]
+          }
+        },
+        {
+          "name": "price",
+          "data_type": "decimal(18, 2)",
+          "comment": "标价，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "标价",
+              "售价",
+              "商品价格",
+              "单价",
+              "零售价"
+            ],
+            "Business Meaning": "该字段表示商品在电商平台上的标定销售价格，单位为人民币元，通常用于展示给消费者、计算订单总额以及进行价格相关的促销分析。",
+            "Common Questions": [
+              "商品的平均标价是多少？",
+              "哪些商品的标价高于100元？",
+              "标价最高的商品是什么？"
+            ]
+          }
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "上下架状态: on_sale=在售, off_sale=已下架",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "availability",
+              "listing_status",
+              "product_status",
+              "sale_status",
+              "on_shelf"
+            ],
+            "Business_Meaning": "Indicates whether a product is currently available for purchase (on_sale) or has been removed from the storefront (off_sale). This field is critical for inventory visibility, sales reporting, and catalog management.",
+            "Common_Questions": [
+              "How many products are currently on sale?",
+              "Which products were recently taken off sale?",
+              "What is the status of product ID XYZ?"
+            ]
+          }
+        },
+        {
+          "name": "created_at",
+          "data_type": "datetime",
+          "comment": "商品创建时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "商品上架时间",
+              "商品录入时间",
+              "产品创建时间",
+              "商品新增时间",
+              "商品发布时间"
+            ],
+            "BusinessMeaning": "该字段记录商品在系统中首次被创建或录入的时间，用于追踪商品生命周期的起点，支持库存管理、新品分析和时效性营销策略制定。",
+            "CommonQuestions": [
+              "哪些商品是最近一周新上架的？",
+              "商品创建时间对销售转化率有影响吗？",
+              "按月统计新创建的商品数量趋势如何？"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "items",
+          "merchandise",
+          "SKUs",
+          "inventory",
+          "catalog"
+        ],
+        "BusinessMeaning": "This table contains core information about all sellable goods offered by the e-commerce platform, including identifiers, descriptions, pricing, categorization, and availability. It serves as the central reference for product-related analytics, inventory management, and customer-facing product discovery.",
+        "CommonQuestions": [
+          "What are the top-selling products by category?",
+          "How many unique products do we currently offer?",
+          "Which products have the highest profit margins?"
+        ]
+      }
+    },
+    {
+      "name": "refunds",
+      "comment": "退款记录表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "退款记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "refund_id",
+              "退款编号",
+              "退款标识",
+              "退款记录编号",
+              "refund_record_id"
+            ],
+            "Business Meaning": "唯一标识每一条退款记录的主键，在业务中用于追踪和关联特定的退款操作，确保退款流程可追溯、可审计，并支持与其他系统（如订单、支付）的数据关联。",
+            "Common Questions": [
+              "如何查询某笔退款的具体信息？",
+              "这笔退款对应的退款记录ID是多少？",
+              "能否通过退款ID关联到原始订单？"
+            ]
+          }
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "对应订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "订单编号",
+              "交易ID",
+              "销售单号",
+              "purchase_id",
+              "transaction_id"
+            ],
+            "Business Meaning": "唯一标识一笔原始订单的编号，用于关联退款记录与其对应的订单。在退款分析中，该字段帮助追踪哪些订单产生了退款，是连接 refunds 表与 orders 表的关键外键。",
+            "Common Questions": [
+              "哪些订单发生了退款？",
+              "某个特定订单是否有退款记录？",
+              "每个订单的退款金额是多少？"
+            ]
+          }
+        },
+        {
+          "name": "payment_id",
+          "data_type": "bigint",
+          "comment": "对应支付记录ID，对应 payments.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "payment reference",
+              "payment transaction ID",
+              "payment record ID",
+              "payment identifier",
+              "linked payment ID"
+            ],
+            "Business Meaning": "The unique identifier that links a refund record to its corresponding original payment transaction in the payments table, enabling traceability between refunds and the payments they reverse.",
+            "Common Questions": [
+              "Which payment was refunded for this refund record?",
+              "How can I find the original payment details for a given refund?",
+              "What is the payment ID associated with this refund?"
+            ]
+          }
+        },
+        {
+          "name": "refund_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "退款金额，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "refund sum",
+              "returned amount",
+              "reimbursement value",
+              "money refunded",
+              "repayment amount"
+            ],
+            "Business Meaning": "The monetary amount returned to a customer as part of a refund transaction, representing the portion or full value of an original purchase that is being reimbursed due to returns, cancellations, or disputes.",
+            "Common Questions": [
+              "What is the total refund amount processed last month?",
+              "Which products have the highest refund amounts?",
+              "How much money was refunded to a specific customer?"
+            ]
+          }
+        },
+        {
+          "name": "refund_reason",
+          "data_type": "varchar(255)",
+          "comment": "退款原因描述",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "退款原因",
+              "退货原因",
+              "退款说明",
+              "退款备注",
+              "退单理由"
+            ],
+            "Business Meaning": "该字段记录了客户申请退款的具体原因，用于分析退款趋势、识别产品或服务问题，并支持客服和运营团队改进客户体验与减少未来退款率。",
+            "Common Questions": [
+              "最近一个月最常见的退款原因是什么？",
+              "哪些产品因质量问题导致的退款最多？",
+              "退款原因中‘不想要了’占比多少？"
+            ]
+          }
+        },
+        {
+          "name": "refund_status",
+          "data_type": "enum",
+          "comment": "退款状态: pending=待退款, success=退款成功, failed=退款失败",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "refund_state",
+              "refund_outcome",
+              "refund_result",
+              "payment_refund_status",
+              "reimbursement_status"
+            ],
+            "Business_Meaning": "Indicates the current stage or final outcome of a customer refund request within the e-commerce platform. This field helps track whether a refund is awaiting processing, has been successfully issued, or has failed due to issues such as insufficient funds or invalid payment details.",
+            "Common_Questions": [
+              "How many refunds are currently pending?",
+              "What percentage of refund requests were successful last month?",
+              "Why did a specific customer's refund fail?"
+            ]
+          }
+        },
+        {
+          "name": "refunded_at",
+          "data_type": "datetime",
+          "comment": "退款完成时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "refund_completion_time",
+              "refund_processed_at",
+              "refund_timestamp",
+              "refund_settlement_time",
+              "refund_execution_time"
+            ],
+            "Business_Meaning": "The exact timestamp when a refund was successfully processed and completed in the system, indicating that the customer has received or is scheduled to receive their money back.",
+            "Common_Questions": [
+              "When was this refund completed?",
+              "How long does it typically take to process a refund after it's requested?",
+              "Which refunds were completed last month?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "refund records",
+          "return payments",
+          "reimbursements",
+          "money-back transactions",
+          "customer refunds"
+        ],
+        "Business Meaning": "This table stores detailed records of all monetary reimbursements issued to customers for returned or canceled orders, including refund amounts, reasons, processing status, and timestamps. It is critical for tracking financial liabilities, customer service performance, and return rate analysis.",
+        "Common Questions": [
+          "How many refunds were processed last month?",
+          "What is the total refund amount by product category?",
+          "Which customers have requested the most refunds?"
+        ]
+      }
+    },
+    {
+      "name": "shipment_items",
+      "comment": "发货明细表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "发货明细ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipment_item_id",
+              "delivery_line_id",
+              "shipping_detail_id",
+              "fulfillment_item_id",
+              "dispatch_record_id"
+            ],
+            "Business Meaning": "A unique identifier for each individual line item within a shipment, representing a specific product or SKU that is being dispatched to a customer as part of an order fulfillment process.",
+            "Common Questions": [
+              "What is the ID of the specific item shipped in this delivery?",
+              "Can I trace back which shipment detail corresponds to this returned item?",
+              "How many unique shipment items were processed yesterday?"
+            ]
+          }
+        },
+        {
+          "name": "shipment_id",
+          "data_type": "bigint",
+          "comment": "发货单ID，对应 shipments.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipping_id",
+              "delivery_id",
+              "consignment_id",
+              "dispatch_id",
+              "shipment_number"
+            ],
+            "Business_Meaning": "A unique identifier that links each line item in the shipment_items table to its corresponding shipment record in the shipments table. It enables tracking of which items belong to a specific shipment for logistics, fulfillment, and delivery analysis.",
+            "Common_Questions": [
+              "Which items were included in shipment ID 12345?",
+              "How many shipment items are associated with a given shipment?",
+              "What is the status of the shipment for this item?"
+            ]
+          }
+        },
+        {
+          "name": "order_item_id",
+          "data_type": "bigint",
+          "comment": "订单明细ID，对应 order_items.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipment item reference",
+              "order line ID",
+              "order detail ID",
+              "item shipment key",
+              "order item reference"
+            ],
+            "Business Meaning": "A unique identifier that links each shipment item to its corresponding entry in the order_items table, enabling traceability from physical shipment records back to the original customer order line.",
+            "Common Questions": [
+              "Which order item does this shipment correspond to?",
+              "How can I track a shipped product back to the original customer order?",
+              "What is the relationship between a shipment record and the customer's order details?"
+            ]
+          }
+        },
+        {
+          "name": "quantity",
+          "data_type": "integer",
+          "comment": "本次发货数量",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "发货量",
+              "出货数量",
+              "配送数量",
+              "商品发货数",
+              "订单发货量"
+            ],
+            "Business Meaning": "表示在某次发货明细中，某一商品实际发出的数量。该字段用于追踪每次物流操作中具体商品的出库数量，是库存管理、履约分析和供应链效率评估的关键指标。",
+            "Common Questions": [
+              "本次发货中某商品发了多少件？",
+              "某个订单的发货数量是否与订购数量一致？",
+              "过去一个月各商品的总发货数量是多少？"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "shipment details",
+          "shipping items",
+          "delivery line items",
+          "fulfillment records",
+          "dispatched products"
+        ],
+        "Business Meaning": "This table contains detailed records of individual items included in each shipment or delivery, linking products to specific orders and tracking their fulfillment status, quantities shipped, and associated logistics information.",
+        "Common Questions": [
+          "Which items were included in a specific shipment?",
+          "How many units of a product have been shipped in the last 30 days?",
+          "What is the fulfillment status of items in pending orders?"
+        ]
+      }
+    },
+    {
+      "name": "shipment_tracking_events",
+      "comment": "物流轨迹事件表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "物流轨迹事件ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "tracking_event_id",
+              "logistics_event_id",
+              "shipment_event_id",
+              "tracking_id",
+              "event_identifier"
+            ],
+            "Business Meaning": "A unique identifier for each logistics tracking event recorded in the shipment lifecycle, used to distinguish individual status updates such as 'dispatched', 'in transit', or 'delivered'.",
+            "Common Questions": [
+              "What is the ID of the latest tracking event for a given shipment?",
+              "How many tracking events have occurred for a specific order?",
+              "Can I trace the full history of a package using its tracking event IDs?"
+            ]
+          }
+        },
+        {
+          "name": "shipment_id",
+          "data_type": "bigint",
+          "comment": "发货单ID，对应 shipments.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipping_id",
+              "dispatch_id",
+              "consignment_id",
+              "delivery_order_id",
+              "logistics_order_id"
+            ],
+            "BusinessMeaning": "A unique identifier that links each logistics tracking event to a specific shipment record, enabling end-to-end visibility of the physical movement of goods from warehouse to customer.",
+            "CommonQuestions": [
+              "Which shipment does this tracking event belong to?",
+              "What is the status history for shipment ID XYZ?",
+              "How many tracking events are associated with a given shipment?"
+            ]
+          }
+        },
+        {
+          "name": "event_time",
+          "data_type": "datetime",
+          "comment": "事件时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "事件发生时间",
+              "物流事件时间戳",
+              "轨迹时间",
+              "操作时间",
+              "状态更新时间"
+            ],
+            "BusinessMeaning": "记录物流运输过程中每个关键事件（如揽收、转运、派送、签收等）发生的具体时间，用于追踪包裹的实时位置和历史轨迹，支持时效分析、异常预警及客户服务查询。",
+            "CommonQuestions": [
+              "包裹在哪个时间点被签收？",
+              "最近一次物流状态更新是什么时候？",
+              "从发货到送达总共经历了多长时间？"
+            ]
+          }
+        },
+        {
+          "name": "event_status",
+          "data_type": "varchar(64)",
+          "comment": "事件状态/节点，例如已揽收、运输中、派送中、已签收",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "物流状态",
+              "配送状态",
+              "运输状态",
+              "包裹状态",
+              "履约节点"
+            ],
+            "Business Meaning": "表示物流履约过程中某一时间点的包裹处理状态，用于追踪订单在配送链路中的实时进展，如是否已被揽收、正在运输、派送中或已成功签收，是衡量物流时效与客户体验的关键指标。",
+            "Common Questions": [
+              "这个包裹当前处于什么物流状态？",
+              "有多少订单已经签收但客户未确认？",
+              "从揽收到派送平均需要多长时间？"
+            ]
+          }
+        },
+        {
+          "name": "location",
+          "data_type": "varchar(128)",
+          "comment": "事件发生地，例如城市/网点",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "event_location",
+              "tracking_location",
+              "facility",
+              "city",
+              "warehouse"
+            ],
+            "Business_Meaning": "Represents the physical location (such as a city, distribution center, or retail outlet) where a specific shipment tracking event occurred during the logistics process. This data helps track the movement of packages through the supply chain and supports performance analysis of delivery routes and handling facilities.",
+            "Common_Questions": [
+              "Where did the last scan of this shipment occur?",
+              "Which cities or facilities are causing the most delivery delays?",
+              "How many tracking events happened at our Shanghai warehouse last week?"
+            ]
+          }
+        },
+        {
+          "name": "description",
+          "data_type": "varchar(255)",
+          "comment": "事件描述详情",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "event_details",
+              "tracking_description",
+              "logistics_event_note",
+              "shipment_status_message",
+              "carrier_event_info"
+            ],
+            "Business_Meaning": "This column contains a human-readable explanation of a specific logistics tracking event, such as 'Package departed from origin facility' or 'Delivery attempted – recipient not home'. It provides contextual information about the status or action taken during the shipment’s journey, enabling customer service and operations teams to understand and communicate the current state of a package.",
+            "Common_Questions": [
+              "What happened to my package on [specific date]?",
+              "Why is my shipment delayed according to the tracking details?",
+              "Can you explain the latest tracking event for order #12345?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "物流跟踪事件",
+          "配送轨迹记录",
+          "运输状态日志",
+          "包裹追踪事件",
+          "货运节点信息"
+        ],
+        "Business Meaning": "该表记录了每个电商订单在履约过程中的物流关键节点事件，包括时间戳、地点、操作类型（如已揽收、运输中、派送中、已签收等），用于监控配送时效、分析物流异常及提升客户体验。",
+        "Common Questions": [
+          "这个订单当前的物流状态是什么？",
+          "包裹从发货到签收经历了哪些关键节点？",
+          "哪些地区的物流配送经常出现延迟？"
+        ]
+      }
+    },
+    {
+      "name": "shipments",
+      "comment": "发货单表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "发货单ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipment_id",
+              "delivery_id",
+              "consignment_id",
+              "dispatch_id",
+              "shipping_order_id"
+            ],
+            "Business Meaning": "A unique identifier assigned to each shipment record, used to track and reference individual delivery transactions from warehouse to customer or distribution center.",
+            "Common Questions": [
+              "What is the status of shipment ID 12345?",
+              "How many shipments were processed last week?",
+              "Which orders are associated with shipment ID 67890?"
+            ]
+          }
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "关联订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipment_order_id",
+              "linked_order_id",
+              "parent_order_id",
+              "source_order_id",
+              "order_reference"
+            ],
+            "Business Meaning": "Identifies the specific customer order from the orders table that this shipment record is fulfilling. It links shipment logistics data to the original sales transaction for tracking, fulfillment analysis, and customer service purposes.",
+            "Common Questions": [
+              "Which order does this shipment belong to?",
+              "How many shipments have been created for a given order?",
+              "What is the delivery status of the order with ID XYZ?"
+            ]
+          }
+        },
+        {
+          "name": "logistics_provider_id",
+          "data_type": "bigint",
+          "comment": "物流承运商ID，对应 logistics_providers.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "synonyms": [
+              "carrier_id",
+              "shipping_provider_id",
+              "transporter_id",
+              "delivery_partner_id",
+              "logistics_vendor_id"
+            ],
+            "business_meaning": "Identifies the third-party logistics company responsible for transporting and delivering the shipment to the customer. This ID links each shipment record to a specific logistics provider in the logistics_providers reference table, enabling tracking of performance, cost allocation, and service-level analysis by carrier.",
+            "common_questions": [
+              "Which logistics provider handled the most shipments last month?",
+              "What is the average delivery time per logistics provider?",
+              "How much did we spend on each logistics provider this quarter?"
+            ]
+          }
+        },
+        {
+          "name": "tracking_no",
+          "data_type": "varchar(64)",
+          "comment": "运单号/快递单号",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "运单编号",
+              "快递单号",
+              "物流单号",
+              "货运跟踪号",
+              "包裹追踪号"
+            ],
+            "Business Meaning": "该字段表示与发货单关联的物流承运商提供的唯一运单编号，用于追踪包裹在运输过程中的状态和位置，是客户、客服及物流团队查询配送进度的关键标识。",
+            "Common Questions": [
+              "这个订单的快递单号是多少？",
+              "如何通过运单号查询包裹当前的物流状态？",
+              "哪些发货单还没有分配快递单号？"
+            ]
+          }
+        },
+        {
+          "name": "shipped_at",
+          "data_type": "datetime",
+          "comment": "发货时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "发货日期",
+              "出库时间",
+              "物流发出时间",
+              "订单发货时间",
+              "配送起始时间"
+            ],
+            "Business Meaning": "记录订单商品实际从仓库发出或交由物流承运商的时间点，用于跟踪履约时效、计算配送周期及评估供应链效率。",
+            "Common Questions": [
+              "订单是什么时候发货的？",
+              "最近7天内有多少订单已发货？",
+              "平均发货时长是多少？"
+            ]
+          }
+        },
+        {
+          "name": "delivered_at",
+          "data_type": "datetime",
+          "comment": "签收时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "delivery_time",
+              "receipt_time",
+              "sign_for_time",
+              "actual_delivery_timestamp",
+              "customer_received_at"
+            ],
+            "Business_Meaning": "The timestamp when the customer or recipient physically received and signed for the shipment, marking the completion of the delivery process. This metric is critical for measuring on-time delivery performance, customer satisfaction, and logistics efficiency.",
+            "Common_Questions": [
+              "When was this order delivered to the customer?",
+              "What is the average delivery time for shipments in the last month?",
+              "How many shipments were delivered after their promised delivery date?"
+            ]
+          }
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "物流状态: pending=待发货, shipped=已发货, in_transit=运输中, delivered=已签收, returned=已退回, lost=快件丢失",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shipment_status",
+              "delivery_status",
+              "logistics_state",
+              "fulfillment_status",
+              "parcel_status"
+            ],
+            "Business_Meaning": "Represents the current stage of a shipment in the logistics and fulfillment process, indicating whether the order has been dispatched, is en route, delivered, returned, or lost. This field is critical for tracking customer orders, managing delivery performance, and handling post-purchase service issues.",
+            "Common_Questions": [
+              "How many shipments are currently in transit?",
+              "What percentage of orders have been successfully delivered?",
+              "Which shipments have been marked as lost or returned?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "delivery orders",
+          "shipping records",
+          "consignment notes",
+          "dispatch records",
+          "fulfillment logs"
+        ],
+        "Business Meaning": "The shipments table contains records of goods dispatched from a warehouse or fulfillment center to customers or retailers. It tracks the logistics of order fulfillment, including when and how items are sent, carrier information, tracking numbers, and delivery status—critical for supply chain visibility, customer service, and on-time delivery performance.",
+        "Common Questions": [
+          "What is the current status of my order shipment?",
+          "How many shipments were delayed last month?",
+          "Which carrier has the highest on-time delivery rate?"
+        ]
+      }
+    },
+    {
+      "name": "shops",
+      "comment": "店铺表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "店铺ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shop_id",
+              "store_id",
+              "merchant_id",
+              "vendor_id",
+              "outlet_id"
+            ],
+            "Business Meaning": "A unique identifier assigned to each individual store or shop within the e-commerce platform, used to distinguish one seller's storefront from another for reporting, analytics, and operational purposes.",
+            "Common Questions": [
+              "Which shop generated the highest revenue last month?",
+              "How many orders were placed at a specific shop?",
+              "What is the average customer rating for this shop?"
+            ]
+          }
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(128)",
+          "comment": "店铺名称",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "店铺名",
+              "商户名称",
+              "商家名称",
+              "店名",
+              "零售店名称"
+            ],
+            "Business Meaning": "该字段表示电商平台中注册店铺的正式名称，用于唯一标识和展示商家身份，是用户识别和搜索商家的关键信息。",
+            "Common Questions": [
+              "哪些店铺的销售额最高？",
+              "如何查找名为‘XYZ旗舰店’的店铺信息？",
+              "店铺名称包含‘官方’的商家有哪些？"
+            ]
+          }
+        },
+        {
+          "name": "owner_user_id",
+          "data_type": "bigint",
+          "comment": "店主用户ID，对应 users.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "synonyms": [
+              "shop_owner_id",
+              "merchant_user_id",
+              "store_owner_id",
+              "vendor_user_id",
+              "seller_user_id"
+            ],
+            "business_meaning": "Identifies the user who owns or operates the shop in the e-commerce platform. This links the shop entity to a specific registered user account, enabling attribution of sales, performance metrics, and administrative actions to the responsible individual or business entity.",
+            "common_questions": [
+              "Which user owns a specific shop?",
+              "How many shops does a particular user manage?",
+              "What is the performance (e.g., sales, ratings) of shops owned by a given user?"
+            ]
+          }
+        },
+        {
+          "name": "shop_type",
+          "data_type": "enum",
+          "comment": "店铺类型: self=平台自营, third_party=第三方商家",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "store_type",
+              "merchant_type",
+              "seller_category",
+              "vendor_type",
+              "retailer_classification"
+            ],
+            "Business_Meaning": "Indicates whether a shop on the e-commerce platform is operated directly by the platform itself (self) or by an external third-party seller (third_party). This distinction is critical for inventory management, fulfillment responsibility, commission structures, and customer service ownership.",
+            "Common_Questions": [
+              "How many third-party sellers are currently active on the platform?",
+              "What percentage of total sales come from platform-operated stores versus third-party merchants?",
+              "Are there differences in customer satisfaction ratings between self-operated and third-party shops?"
+            ]
+          }
+        },
+        {
+          "name": "region_id",
+          "data_type": "bigint",
+          "comment": "店铺所在地区，对应 dim_region.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "region",
+              "geographic region",
+              "area",
+              "location",
+              "territory"
+            ],
+            "Business Meaning": "Identifies the geographic region where a shop is located, enabling regional analysis of store performance, customer demographics, and logistics planning by linking to the region dimension table (dim_region).",
+            "Common Questions": [
+              "How many shops are there in each region?",
+              "Which region has the highest number of underperforming stores?",
+              "What is the average sales per shop by region?"
+            ]
+          }
+        },
+        {
+          "name": "opened_at",
+          "data_type": "datetime",
+          "comment": "店铺开店时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "开店时间",
+              "店铺开业时间",
+              "营业起始时间",
+              "上线时间",
+              "启用时间"
+            ],
+            "Business Meaning": "该字段记录了电商平台上店铺正式开始营业或对外提供服务的具体时间点，用于追踪店铺生命周期、计算运营时长，并支持分析店铺活跃度、成长趋势及营销活动效果。",
+            "Common Questions": [
+              "这家店铺是什么时候开的？",
+              "哪些店铺是在过去30天内新开的？",
+              "店铺的平均运营时长是多少？"
+            ]
+          }
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "店铺状态: active=正常营业, inactive=停用/关店",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "shop_status",
+              "store_status",
+              "operational_status",
+              "business_status",
+              "active_flag"
+            ],
+            "BusinessMeaning": "Indicates whether a shop is currently operational or has been deactivated/closed. This field is critical for filtering active merchants in reporting, customer-facing store listings, and operational dashboards.",
+            "CommonQuestions": [
+              "How many shops are currently active?",
+              "Which stores have been deactivated in the last 30 days?",
+              "What percentage of total shops are still in business?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "stores",
+          "outlets",
+          "merchants",
+          "vendors",
+          "retailers"
+        ],
+        "Business Meaning": "Represents individual seller entities or storefronts within the e-commerce platform, each with unique identifiers, operational details, and associated product catalogs. This table captures core information about who is selling on the platform.",
+        "Common Questions": [
+          "How many active shops are there on the platform?",
+          "Which shops have the highest sales volume this month?",
+          "What is the geographic distribution of our shop owners?"
+        ]
+      }
+    },
+    {
+      "name": "user_coupons",
+      "comment": "用户领券表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "用户券记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "user_coupon_id",
+              "coupon_record_id",
+              "voucher_id",
+              "promotion_id",
+              "discount_record_id"
+            ],
+            "Business Meaning": "A unique identifier for each record representing a coupon issued to or claimed by a user. This ID enables tracking, redemption validation, and analytics of individual coupon usage within the e-commerce platform.",
+            "Common Questions": [
+              "What is the unique ID for a specific user's coupon record?",
+              "How can I trace a redeemed coupon back to its original issuance using the ID?",
+              "Which user coupon records were created during a specific promotional campaign?"
+            ]
+          }
+        },
+        {
+          "name": "user_id",
+          "data_type": "bigint",
+          "comment": "用户ID，对应 users.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "customer_id",
+              "buyer_id",
+              "account_id",
+              "member_id",
+              "shopper_id"
+            ],
+            "BusinessMeaning": "Identifies the unique customer who has claimed or received a coupon. This field links coupon redemptions or assignments to individual users in the system, enabling analysis of user-level coupon usage, redemption rates, and personalized marketing effectiveness.",
+            "CommonQuestions": [
+              "Which users have claimed the most coupons?",
+              "How many unique users redeemed a specific coupon?",
+              "What is the redemption rate of coupons by user segment?"
+            ]
+          }
+        },
+        {
+          "name": "coupon_id",
+          "data_type": "bigint",
+          "comment": "优惠券ID，对应 coupons.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "voucher_id",
+              "promo_code_id",
+              "discount_id",
+              "coupon_code_id",
+              "offer_id"
+            ],
+            "Business_Meaning": "Identifies the specific coupon that a user has claimed or redeemed, linking user activity in the user_coupons table to the master coupon definition in the coupons table. This enables tracking of which promotions are being used by which users, supporting campaign performance analysis and personalized marketing.",
+            "Common_Questions": [
+              "Which coupons have been claimed by a specific user?",
+              "How many users have redeemed a particular coupon?",
+              "What is the redemption rate for each coupon campaign?"
+            ]
+          }
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "券状态: unused=未使用, used=已使用, expired=已过期",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "coupon_status",
+              "voucher_state",
+              "promotion_status",
+              "discount_status",
+              "redemption_status"
+            ],
+            "BusinessMeaning": "Indicates the current lifecycle stage of a coupon assigned to a user, which helps track redemption behavior, measure campaign effectiveness, and manage inventory of promotional offers.",
+            "CommonQuestions": [
+              "How many unused coupons do users currently hold?",
+              "What percentage of issued coupons have been redeemed versus expired?",
+              "Which users have expired coupons that could be re-engaged with new offers?"
+            ]
+          }
+        },
+        {
+          "name": "received_at",
+          "data_type": "datetime",
+          "comment": "领取时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "领取时间",
+              "领券时间",
+              "优惠券领取时间",
+              "用户领券时刻",
+              "coupon_received_at"
+            ],
+            "Business Meaning": "The timestamp when a user successfully claimed or received a coupon in the system. This field is critical for analyzing coupon adoption rates, timing of promotional engagement, and user behavior around marketing campaigns.",
+            "Common Questions": [
+              "用户是什么时候领取这张优惠券的？",
+              "最近7天内有多少用户领取了优惠券？",
+              "优惠券领取时间与使用时间之间通常间隔多久？"
+            ]
+          }
+        },
+        {
+          "name": "used_at",
+          "data_type": "datetime",
+          "comment": "使用时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "usage_time",
+              "redemption_time",
+              "applied_at",
+              "consumed_at",
+              "utilization_timestamp"
+            ],
+            "Business_Meaning": "The timestamp when a user actually applied or redeemed a coupon during a purchase. This field indicates the exact moment a coupon was used, enabling analysis of coupon redemption behavior, timing effectiveness, and campaign performance.",
+            "Common_Questions": [
+              "When was this coupon used by the customer?",
+              "How long after receiving a coupon do users typically redeem it?",
+              "Which coupons were used during the holiday sale period?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "coupon_redemptions",
+          "user_vouchers",
+          "discount_claims",
+          "promo_codes_used",
+          "coupon_assignments"
+        ],
+        "BusinessMeaning": "This table records instances where users have claimed or received coupons, capturing the relationship between users and promotional discounts. It is essential for tracking coupon distribution, measuring campaign effectiveness, and analyzing user engagement with promotional offers.",
+        "CommonQuestions": [
+          "How many coupons has a specific user claimed in the last 30 days?",
+          "Which coupon types are most frequently claimed by new users?",
+          "What is the redemption rate of coupons issued during a specific marketing campaign?"
+        ]
+      }
+    },
+    {
+      "name": "users",
+      "comment": "用户表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "用户ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "user_id",
+              "customer_id",
+              "account_id",
+              "profile_id",
+              "member_id"
+            ],
+            "BusinessMeaning": "A unique identifier assigned to each registered user in the e-commerce platform, used to track user activity, personalize experiences, and link related data such as orders, reviews, and preferences.",
+            "CommonQuestions": [
+              "How many unique users made a purchase last month?",
+              "What is the total lifetime value of a specific user?",
+              "Which products has this user viewed or purchased?"
+            ]
+          }
+        },
+        {
+          "name": "username",
+          "data_type": "varchar(64)",
+          "comment": "用户名/登录名",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "user ID",
+              "login name",
+              "account name",
+              "user handle",
+              "screen name"
+            ],
+            "Business Meaning": "The unique identifier chosen by a customer to log in to their account on the e-commerce platform; used for authentication, personalization, and tracking user activity across sessions.",
+            "Common Questions": [
+              "What is the username associated with this order?",
+              "How many active users have logged in using a username in the last 30 days?",
+              "Can we identify duplicate accounts by comparing usernames?"
+            ]
+          }
+        },
+        {
+          "name": "email",
+          "data_type": "varchar(128)",
+          "comment": "邮箱地址",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "电子邮箱",
+              "电子邮件地址",
+              "email address",
+              "联系邮箱",
+              "用户邮箱"
+            ],
+            "BusinessMeaning": "The email column in the users table stores the primary electronic mail address provided by a customer or user for account registration, communication, marketing outreach, and order-related notifications. It serves as a key identifier for user engagement and customer relationship management.",
+            "CommonQuestions": [
+              "How many users have verified their email addresses?",
+              "What is the email address associated with a specific user ID?",
+              "Which users have not received a promotional email in the last 30 days?"
+            ]
+          }
+        },
+        {
+          "name": "phone",
+          "data_type": "varchar(20)",
+          "comment": "手机号",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "mobile number",
+              "cell phone",
+              "contact number",
+              "telephone",
+              "mobile"
+            ],
+            "BusinessMeaning": "The primary mobile phone number associated with a registered user, used for account verification, customer communication, marketing outreach, and order notifications.",
+            "CommonQuestions": [
+              "What is the customer's phone number for this order?",
+              "How many users have provided a valid mobile number?",
+              "Can we send SMS promotions to users based on their phone numbers?"
+            ]
+          }
+        },
+        {
+          "name": "registered_at",
+          "data_type": "datetime",
+          "comment": "注册时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "注册日期",
+              "账户创建时间",
+              "用户注册时间",
+              "开户时间",
+              "sign_up_time"
+            ],
+            "Business_Meaning": "The timestamp when a user first created their account on the e-commerce platform. This field is critical for cohort analysis, user lifecycle tracking, and measuring time-to-first-purchase metrics.",
+            "Common_Questions": [
+              "What is the registration date of a specific user?",
+              "How many users registered in the last 30 days?",
+              "What is the average time between user registration and first purchase?"
+            ]
+          }
+        },
+        {
+          "name": "register_channel_code",
+          "data_type": "varchar(32)",
+          "comment": "注册渠道编码，对应 dim_channel.channel_code",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "registration_channel_code",
+              "signup_source_code",
+              "acquisition_channel_id",
+              "user_origin_code",
+              "channel_of_registration"
+            ],
+            "BusinessMeaning": "Identifies the specific marketing or operational channel through which a user first registered on the platform (e.g., mobile app, web referral, social media campaign). This code links to the dimension table dim_channel for detailed channel attributes and is critical for analyzing customer acquisition effectiveness and channel performance.",
+            "CommonQuestions": [
+              "Which registration channel brings in the most new users?",
+              "What is the conversion rate by registration channel?",
+              "How do user lifetime values differ across registration channels?"
+            ]
+          }
+        },
+        {
+          "name": "region_id",
+          "data_type": "bigint",
+          "comment": "用户所在地区，对应 dim_region.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "region",
+              "geographic region",
+              "area",
+              "location",
+              "territory"
+            ],
+            "Business Meaning": "Identifies the geographic region associated with a user, enabling regional segmentation for marketing, logistics, and customer analytics. This field links to the dimension table dim_region to provide detailed regional attributes such as country, state, or city.",
+            "Common Questions": [
+              "How many users are from each region?",
+              "Which region has the highest user engagement?",
+              "What is the distribution of new sign-ups across different regions?"
+            ]
+          }
+        },
+        {
+          "name": "level",
+          "data_type": "tinyint",
+          "comment": "会员等级: 0=普通用户, 1=银卡会员, 2=金卡会员, 3=VIP会员",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null,
+          "enrichment": {
+            "Synonyms": [
+              "membership_tier",
+              "customer_level",
+              "loyalty_status",
+              "user_tier",
+              "member_grade"
+            ],
+            "Business_Meaning": "Represents the loyalty or membership tier of a user in the e-commerce platform, indicating their status based on engagement, spending, or tenure. Higher levels (e.g., VIP) often correlate with enhanced benefits, discounts, or customer service priority.",
+            "Common_Questions": [
+              "How many users are VIP members?",
+              "What is the distribution of customers across different membership levels?",
+              "Do higher-tier members generate more revenue on average?"
+            ]
+          }
+        }
+      ],
+      "relationships": [],
+      "enrichment": {
+        "Synonyms": [
+          "customers",
+          "accounts",
+          "user profiles",
+          "shoppers",
+          "buyers"
+        ],
+        "BusinessMeaning": "Represents registered individuals who interact with the e-commerce platform, including their account details, contact information, and behavioral metadata. This table is foundational for customer segmentation, personalization, and lifecycle analysis.",
+        "CommonQuestions": [
+          "How many active users did we have last month?",
+          "What is the geographic distribution of our user base?",
+          "Which users have made a purchase in the last 30 days?"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1222 @@
+{
+  "tables": [
+    {
+      "table_name": "categories",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "categories",
+          "source_column": "parent_id",
+          "target_table": "categories",
+          "target_column": "id",
+          "constraint_name": "fk_categories_categories_parent_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_categories_parent",
+          "columns": [
+            "parent_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "coupons",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "coupons",
+          "source_column": "shop_id",
+          "target_table": "shops",
+          "target_column": "id",
+          "constraint_name": "fk_coupons_shops_shop_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_coupons_shop",
+          "columns": [
+            "shop_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "uk_coupons_code",
+          "columns": [
+            "code"
+          ],
+          "type": "UNIQUE",
+          "is_unique": true
+        }
+      ]
+    },
+    {
+      "table_name": "dim_channel",
+      "primary_keys": [
+        "channel_code"
+      ],
+      "foreign_keys": [],
+      "indexes": []
+    },
+    {
+      "table_name": "dim_region",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "indexes": [
+        {
+          "name": "idx_dim_region_country_province_city",
+          "columns": [
+            "country",
+            "province",
+            "city"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "logistics_providers",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "indexes": [
+        {
+          "name": "uk_logistics_providers_code",
+          "columns": [
+            "code"
+          ],
+          "type": "UNIQUE",
+          "is_unique": true
+        }
+      ]
+    },
+    {
+      "table_name": "order_coupons",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "order_coupons",
+          "source_column": "coupon_id",
+          "target_table": "coupons",
+          "target_column": "id",
+          "constraint_name": "fk_order_coupons_coupons_coupon_id"
+        },
+        {
+          "source_table": "order_coupons",
+          "source_column": "order_id",
+          "target_table": "orders",
+          "target_column": "id",
+          "constraint_name": "fk_order_coupons_orders_order_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_order_coupons_coupon",
+          "columns": [
+            "coupon_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_order_coupons_order",
+          "columns": [
+            "order_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "order_items",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "order_items",
+          "source_column": "order_id",
+          "target_table": "orders",
+          "target_column": "id",
+          "constraint_name": "fk_order_items_orders_order_id"
+        },
+        {
+          "source_table": "order_items",
+          "source_column": "product_id",
+          "target_table": "products",
+          "target_column": "id",
+          "constraint_name": "fk_order_items_products_product_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_order_items_order",
+          "columns": [
+            "order_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_order_items_product",
+          "columns": [
+            "product_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "orders",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "orders",
+          "source_column": "order_channel_code",
+          "target_table": "dim_channel",
+          "target_column": "channel_code",
+          "constraint_name": "fk_orders_dim_channel_order_channel_code"
+        },
+        {
+          "source_table": "orders",
+          "source_column": "shipping_region_id",
+          "target_table": "dim_region",
+          "target_column": "id",
+          "constraint_name": "fk_orders_dim_region_shipping_region_id"
+        },
+        {
+          "source_table": "orders",
+          "source_column": "shop_id",
+          "target_table": "shops",
+          "target_column": "id",
+          "constraint_name": "fk_orders_shops_shop_id"
+        },
+        {
+          "source_table": "orders",
+          "source_column": "user_id",
+          "target_table": "users",
+          "target_column": "id",
+          "constraint_name": "fk_orders_users_user_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_orders_channel",
+          "columns": [
+            "order_channel_code"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_orders_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_orders_shipping_region",
+          "columns": [
+            "shipping_region_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_orders_shop",
+          "columns": [
+            "shop_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_orders_status",
+          "columns": [
+            "status"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_orders_user",
+          "columns": [
+            "user_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "uk_orders_order_no",
+          "columns": [
+            "order_no"
+          ],
+          "type": "UNIQUE",
+          "is_unique": true
+        }
+      ]
+    },
+    {
+      "table_name": "payments",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "payments",
+          "source_column": "order_id",
+          "target_table": "orders",
+          "target_column": "id",
+          "constraint_name": "fk_payments_orders_order_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_payments_order",
+          "columns": [
+            "order_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_payments_status",
+          "columns": [
+            "pay_status"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "products",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "products",
+          "source_column": "category_id",
+          "target_table": "categories",
+          "target_column": "id",
+          "constraint_name": "fk_products_categories_category_id"
+        },
+        {
+          "source_table": "products",
+          "source_column": "shop_id",
+          "target_table": "shops",
+          "target_column": "id",
+          "constraint_name": "fk_products_shops_shop_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_products_category",
+          "columns": [
+            "category_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_products_shop",
+          "columns": [
+            "shop_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_products_status",
+          "columns": [
+            "status"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "refunds",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "refunds",
+          "source_column": "order_id",
+          "target_table": "orders",
+          "target_column": "id",
+          "constraint_name": "fk_refunds_orders_order_id"
+        },
+        {
+          "source_table": "refunds",
+          "source_column": "payment_id",
+          "target_table": "payments",
+          "target_column": "id",
+          "constraint_name": "fk_refunds_payments_payment_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_refunds_order",
+          "columns": [
+            "order_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_refunds_payment",
+          "columns": [
+            "payment_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "shipment_items",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "shipment_items",
+          "source_column": "order_item_id",
+          "target_table": "order_items",
+          "target_column": "id",
+          "constraint_name": "fk_shipment_items_order_items_order_item_id"
+        },
+        {
+          "source_table": "shipment_items",
+          "source_column": "shipment_id",
+          "target_table": "shipments",
+          "target_column": "id",
+          "constraint_name": "fk_shipment_items_shipments_shipment_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_shipment_items_order_item",
+          "columns": [
+            "order_item_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_shipment_items_shipment",
+          "columns": [
+            "shipment_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "shipment_tracking_events",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "shipment_tracking_events",
+          "source_column": "shipment_id",
+          "target_table": "shipments",
+          "target_column": "id",
+          "constraint_name": "fk_shipment_tracking_events_shipments_shipment_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_shipment_tracking_events_event_time",
+          "columns": [
+            "event_time"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_shipment_tracking_events_shipment",
+          "columns": [
+            "shipment_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "shipments",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "shipments",
+          "source_column": "logistics_provider_id",
+          "target_table": "logistics_providers",
+          "target_column": "id",
+          "constraint_name": "fk_shipments_logistics_providers_provider_id"
+        },
+        {
+          "source_table": "shipments",
+          "source_column": "order_id",
+          "target_table": "orders",
+          "target_column": "id",
+          "constraint_name": "fk_shipments_orders_order_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_shipments_order",
+          "columns": [
+            "order_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_shipments_provider",
+          "columns": [
+            "logistics_provider_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "uk_shipments_tracking_no",
+          "columns": [
+            "tracking_no"
+          ],
+          "type": "UNIQUE",
+          "is_unique": true
+        }
+      ]
+    },
+    {
+      "table_name": "shops",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "shops",
+          "source_column": "region_id",
+          "target_table": "dim_region",
+          "target_column": "id",
+          "constraint_name": "fk_shops_dim_region_region_id"
+        },
+        {
+          "source_table": "shops",
+          "source_column": "owner_user_id",
+          "target_table": "users",
+          "target_column": "id",
+          "constraint_name": "fk_shops_users_owner_user_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_shops_owner_user",
+          "columns": [
+            "owner_user_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_shops_region",
+          "columns": [
+            "region_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "user_coupons",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "user_coupons",
+          "source_column": "coupon_id",
+          "target_table": "coupons",
+          "target_column": "id",
+          "constraint_name": "fk_user_coupons_coupons_coupon_id"
+        },
+        {
+          "source_table": "user_coupons",
+          "source_column": "user_id",
+          "target_table": "users",
+          "target_column": "id",
+          "constraint_name": "fk_user_coupons_users_user_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_user_coupons_coupon",
+          "columns": [
+            "coupon_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_user_coupons_status",
+          "columns": [
+            "status"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_user_coupons_user",
+          "columns": [
+            "user_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        }
+      ]
+    },
+    {
+      "table_name": "users",
+      "primary_keys": [
+        "id"
+      ],
+      "foreign_keys": [
+        {
+          "source_table": "users",
+          "source_column": "register_channel_code",
+          "target_table": "dim_channel",
+          "target_column": "channel_code",
+          "constraint_name": "fk_users_dim_channel_register_channel_code"
+        },
+        {
+          "source_table": "users",
+          "source_column": "region_id",
+          "target_table": "dim_region",
+          "target_column": "id",
+          "constraint_name": "fk_users_dim_region_region_id"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_users_region",
+          "columns": [
+            "region_id"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_users_register_channel",
+          "columns": [
+            "register_channel_code"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "idx_users_registered_at",
+          "columns": [
+            "registered_at"
+          ],
+          "type": "INDEX",
+          "is_unique": false
+        },
+        {
+          "name": "uk_users_email",
+          "columns": [
+            "email"
+          ],
+          "type": "UNIQUE",
+          "is_unique": true
+        },
+        {
+          "name": "uk_users_phone",
+          "columns": [
+            "phone"
+          ],
+          "type": "UNIQUE",
+          "is_unique": true
+        }
+      ]
+    }
+  ],
+  "foreign_keys_summary": [
+    {
+      "source_table": "categories",
+      "source_column": "parent_id",
+      "target_table": "categories",
+      "target_column": "id",
+      "constraint_name": "fk_categories_categories_parent_id"
+    },
+    {
+      "source_table": "coupons",
+      "source_column": "shop_id",
+      "target_table": "shops",
+      "target_column": "id",
+      "constraint_name": "fk_coupons_shops_shop_id"
+    },
+    {
+      "source_table": "order_coupons",
+      "source_column": "coupon_id",
+      "target_table": "coupons",
+      "target_column": "id",
+      "constraint_name": "fk_order_coupons_coupons_coupon_id"
+    },
+    {
+      "source_table": "order_coupons",
+      "source_column": "order_id",
+      "target_table": "orders",
+      "target_column": "id",
+      "constraint_name": "fk_order_coupons_orders_order_id"
+    },
+    {
+      "source_table": "order_items",
+      "source_column": "order_id",
+      "target_table": "orders",
+      "target_column": "id",
+      "constraint_name": "fk_order_items_orders_order_id"
+    },
+    {
+      "source_table": "order_items",
+      "source_column": "product_id",
+      "target_table": "products",
+      "target_column": "id",
+      "constraint_name": "fk_order_items_products_product_id"
+    },
+    {
+      "source_table": "orders",
+      "source_column": "order_channel_code",
+      "target_table": "dim_channel",
+      "target_column": "channel_code",
+      "constraint_name": "fk_orders_dim_channel_order_channel_code"
+    },
+    {
+      "source_table": "orders",
+      "source_column": "shipping_region_id",
+      "target_table": "dim_region",
+      "target_column": "id",
+      "constraint_name": "fk_orders_dim_region_shipping_region_id"
+    },
+    {
+      "source_table": "orders",
+      "source_column": "shop_id",
+      "target_table": "shops",
+      "target_column": "id",
+      "constraint_name": "fk_orders_shops_shop_id"
+    },
+    {
+      "source_table": "orders",
+      "source_column": "user_id",
+      "target_table": "users",
+      "target_column": "id",
+      "constraint_name": "fk_orders_users_user_id"
+    },
+    {
+      "source_table": "payments",
+      "source_column": "order_id",
+      "target_table": "orders",
+      "target_column": "id",
+      "constraint_name": "fk_payments_orders_order_id"
+    },
+    {
+      "source_table": "products",
+      "source_column": "category_id",
+      "target_table": "categories",
+      "target_column": "id",
+      "constraint_name": "fk_products_categories_category_id"
+    },
+    {
+      "source_table": "products",
+      "source_column": "shop_id",
+      "target_table": "shops",
+      "target_column": "id",
+      "constraint_name": "fk_products_shops_shop_id"
+    },
+    {
+      "source_table": "refunds",
+      "source_column": "order_id",
+      "target_table": "orders",
+      "target_column": "id",
+      "constraint_name": "fk_refunds_orders_order_id"
+    },
+    {
+      "source_table": "refunds",
+      "source_column": "payment_id",
+      "target_table": "payments",
+      "target_column": "id",
+      "constraint_name": "fk_refunds_payments_payment_id"
+    },
+    {
+      "source_table": "shipment_items",
+      "source_column": "order_item_id",
+      "target_table": "order_items",
+      "target_column": "id",
+      "constraint_name": "fk_shipment_items_order_items_order_item_id"
+    },
+    {
+      "source_table": "shipment_items",
+      "source_column": "shipment_id",
+      "target_table": "shipments",
+      "target_column": "id",
+      "constraint_name": "fk_shipment_items_shipments_shipment_id"
+    },
+    {
+      "source_table": "shipment_tracking_events",
+      "source_column": "shipment_id",
+      "target_table": "shipments",
+      "target_column": "id",
+      "constraint_name": "fk_shipment_tracking_events_shipments_shipment_id"
+    },
+    {
+      "source_table": "shipments",
+      "source_column": "logistics_provider_id",
+      "target_table": "logistics_providers",
+      "target_column": "id",
+      "constraint_name": "fk_shipments_logistics_providers_provider_id"
+    },
+    {
+      "source_table": "shipments",
+      "source_column": "order_id",
+      "target_table": "orders",
+      "target_column": "id",
+      "constraint_name": "fk_shipments_orders_order_id"
+    },
+    {
+      "source_table": "shops",
+      "source_column": "region_id",
+      "target_table": "dim_region",
+      "target_column": "id",
+      "constraint_name": "fk_shops_dim_region_region_id"
+    },
+    {
+      "source_table": "shops",
+      "source_column": "owner_user_id",
+      "target_table": "users",
+      "target_column": "id",
+      "constraint_name": "fk_shops_users_owner_user_id"
+    },
+    {
+      "source_table": "user_coupons",
+      "source_column": "coupon_id",
+      "target_table": "coupons",
+      "target_column": "id",
+      "constraint_name": "fk_user_coupons_coupons_coupon_id"
+    },
+    {
+      "source_table": "user_coupons",
+      "source_column": "user_id",
+      "target_table": "users",
+      "target_column": "id",
+      "constraint_name": "fk_user_coupons_users_user_id"
+    },
+    {
+      "source_table": "users",
+      "source_column": "register_channel_code",
+      "target_table": "dim_channel",
+      "target_column": "channel_code",
+      "constraint_name": "fk_users_dim_channel_register_channel_code"
+    },
+    {
+      "source_table": "users",
+      "source_column": "region_id",
+      "target_table": "dim_region",
+      "target_column": "id",
+      "constraint_name": "fk_users_dim_region_region_id"
+    }
+  ],
+  "indexes_summary": [
+    {
+      "table": "categories",
+      "name": "idx_categories_parent",
+      "columns": [
+        "parent_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "coupons",
+      "name": "idx_coupons_shop",
+      "columns": [
+        "shop_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "coupons",
+      "name": "uk_coupons_code",
+      "columns": [
+        "code"
+      ],
+      "type": "UNIQUE",
+      "is_unique": true
+    },
+    {
+      "table": "dim_region",
+      "name": "idx_dim_region_country_province_city",
+      "columns": [
+        "country",
+        "province",
+        "city"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "logistics_providers",
+      "name": "uk_logistics_providers_code",
+      "columns": [
+        "code"
+      ],
+      "type": "UNIQUE",
+      "is_unique": true
+    },
+    {
+      "table": "order_coupons",
+      "name": "idx_order_coupons_coupon",
+      "columns": [
+        "coupon_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "order_coupons",
+      "name": "idx_order_coupons_order",
+      "columns": [
+        "order_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "order_items",
+      "name": "idx_order_items_order",
+      "columns": [
+        "order_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "order_items",
+      "name": "idx_order_items_product",
+      "columns": [
+        "product_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "idx_orders_channel",
+      "columns": [
+        "order_channel_code"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "idx_orders_created_at",
+      "columns": [
+        "created_at"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "idx_orders_shipping_region",
+      "columns": [
+        "shipping_region_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "idx_orders_shop",
+      "columns": [
+        "shop_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "idx_orders_status",
+      "columns": [
+        "status"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "idx_orders_user",
+      "columns": [
+        "user_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "orders",
+      "name": "uk_orders_order_no",
+      "columns": [
+        "order_no"
+      ],
+      "type": "UNIQUE",
+      "is_unique": true
+    },
+    {
+      "table": "payments",
+      "name": "idx_payments_order",
+      "columns": [
+        "order_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "payments",
+      "name": "idx_payments_status",
+      "columns": [
+        "pay_status"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "products",
+      "name": "idx_products_category",
+      "columns": [
+        "category_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "products",
+      "name": "idx_products_shop",
+      "columns": [
+        "shop_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "products",
+      "name": "idx_products_status",
+      "columns": [
+        "status"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "refunds",
+      "name": "idx_refunds_order",
+      "columns": [
+        "order_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "refunds",
+      "name": "idx_refunds_payment",
+      "columns": [
+        "payment_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipment_items",
+      "name": "idx_shipment_items_order_item",
+      "columns": [
+        "order_item_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipment_items",
+      "name": "idx_shipment_items_shipment",
+      "columns": [
+        "shipment_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipment_tracking_events",
+      "name": "idx_shipment_tracking_events_event_time",
+      "columns": [
+        "event_time"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipment_tracking_events",
+      "name": "idx_shipment_tracking_events_shipment",
+      "columns": [
+        "shipment_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipments",
+      "name": "idx_shipments_order",
+      "columns": [
+        "order_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipments",
+      "name": "idx_shipments_provider",
+      "columns": [
+        "logistics_provider_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shipments",
+      "name": "uk_shipments_tracking_no",
+      "columns": [
+        "tracking_no"
+      ],
+      "type": "UNIQUE",
+      "is_unique": true
+    },
+    {
+      "table": "shops",
+      "name": "idx_shops_owner_user",
+      "columns": [
+        "owner_user_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "shops",
+      "name": "idx_shops_region",
+      "columns": [
+        "region_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "user_coupons",
+      "name": "idx_user_coupons_coupon",
+      "columns": [
+        "coupon_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "user_coupons",
+      "name": "idx_user_coupons_status",
+      "columns": [
+        "status"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "user_coupons",
+      "name": "idx_user_coupons_user",
+      "columns": [
+        "user_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "users",
+      "name": "idx_users_region",
+      "columns": [
+        "region_id"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "users",
+      "name": "idx_users_register_channel",
+      "columns": [
+        "register_channel_code"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "users",
+      "name": "idx_users_registered_at",
+      "columns": [
+        "registered_at"
+      ],
+      "type": "INDEX",
+      "is_unique": false
+    },
+    {
+      "table": "users",
+      "name": "uk_users_email",
+      "columns": [
+        "email"
+      ],
+      "type": "UNIQUE",
+      "is_unique": true
+    },
+    {
+      "table": "users",
+      "name": "uk_users_phone",
+      "columns": [
+        "phone"
+      ],
+      "type": "UNIQUE",
+      "is_unique": true
+    }
+  ]
+}

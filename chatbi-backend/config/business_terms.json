@@ -1,0 +1,82 @@
+{
+  "terms": {
+    "一线城市": {
+      "meaning": "city_level = 'tier1' 的城市，包括北京、上海、广州、深圳",
+      "sql_hint": "dim_region.city_level = 'tier1'",
+      "examples": [
+        "一线城市销售额"
+      ]
+    },
+    "二线城市": {
+      "meaning": "city_level = 'tier2' 的城市，包括新一线和二线城市",
+      "sql_hint": "dim_region.city_level = 'tier2'",
+      "examples": [
+        "二线城市销售额",
+        "二线城市订单量"
+      ]
+    },
+    "自营店铺": {
+      "meaning": "平台自营的店铺，shop_type = 'self'",
+      "sql_hint": "shops.shop_type = 'self'",
+      "examples": [
+        "自营店销售额",
+        "自营店订单"
+      ]
+    },
+    "第三方店铺": {
+      "meaning": "第三方商家的店铺，shop_type = 'third_party'",
+      "sql_hint": "shops.shop_type = 'third_party'",
+      "examples": [
+        "第三方店销售额",
+        "第三方商家订单"
+      ]
+    },
+    "已完成订单": {
+      "meaning": "订单状态为已完成，status = 'completed'",
+      "sql_hint": "orders.status = 'completed'",
+      "examples": [
+        "已完成订单数",
+        "完成订单金额"
+      ]
+    },
+    "待发货订单": {
+      "meaning": "订单状态为已付款待发货，status = 'paid'",
+      "sql_hint": "orders.status = 'paid'",
+      "examples": [
+        "待发货订单数",
+        "待发货金额"
+      ]
+    },
+    "客单价": {
+      "meaning": "平均每笔订单的实付金额，计算方式为 SUM(pay_amount) / COUNT(*)",
+      "sql_hint": "SUM(orders.pay_amount) / COUNT(orders.id)",
+      "examples": [
+        "客单价多少",
+        "平均客单价"
+      ]
+    },
+    "GMV": {
+      "meaning": "销售总额（Gross Merchandise Volume），即订单的实付金额总和",
+      "sql_hint": "SUM(orders.pay_amount)",
+      "examples": [
+        "今年GMV",
+        "GMV多少",
+        "总销售额"
+      ]
+    },
+    "测试": {
+      "meaning": "测试",
+      "sql_hint": "测试",
+      "examples": [
+        "测试"
+      ]
+    },
+    "测试2": {
+      "meaning": "测试2",
+      "sql_hint": "测试2",
+      "examples": [
+        "测试2"
+      ]
+    }
+  }
+}

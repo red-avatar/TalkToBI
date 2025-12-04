@@ -1,0 +1,1099 @@
+{
+  "database_name": "chatbi",
+  "tables": [
+    {
+      "name": "categories",
+      "comment": "商品类目表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "类目ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "parent_id",
+          "data_type": "bigint",
+          "comment": "父类目ID，自关联 categories.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(64)",
+          "comment": "类目名称，例如手机、家电",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "level",
+          "data_type": "tinyint",
+          "comment": "类目层级：1=一级类目，2=二级类目，3=三级类目",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "coupons",
+      "comment": "优惠券表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "优惠券ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "code",
+          "data_type": "varchar(64)",
+          "comment": "券码，唯一标识一类券",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "CPIF5I3JM7U4",
+            "CPJL6ZB73ORE",
+            "CPMWKW655PO7",
+            "CPOL1VSEX2Z0",
+            "CPQQKS2J4AXC",
+            "CPRAULGB1I6D",
+            "CPXIBJ79ARW4",
+            "CPZW9ZSK95CY"
+          ]
+        },
+        {
+          "name": "type",
+          "data_type": "enum",
+          "comment": "优惠类型: full_reduction=满减券, discount=折扣券",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "full_reduction",
+            "discount"
+          ]
+        },
+        {
+          "name": "threshold_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "满减门槛金额，type=full_reduction 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "满减优惠金额，type=full_reduction 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "discount_rate",
+          "data_type": "decimal(5, 2)",
+          "comment": "折扣比例，例如 0.90 表示 9 折，type=discount 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "0.95",
+            "0.90",
+            "0.85",
+            "0.80"
+          ]
+        },
+        {
+          "name": "valid_from",
+          "data_type": "datetime",
+          "comment": "优惠券生效时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "valid_to",
+          "data_type": "datetime",
+          "comment": "优惠券失效时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "scope",
+          "data_type": "enum",
+          "comment": "适用范围: all=全场通用, category=指定类目, product=指定商品, shop=指定店铺",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "all"
+          ]
+        },
+        {
+          "name": "shop_id",
+          "data_type": "bigint",
+          "comment": "适用店铺ID，对应 shops.id，仅当 scope=shop 时生效",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "dim_channel",
+      "comment": "渠道维度表",
+      "columns": [
+        {
+          "name": "channel_code",
+          "data_type": "varchar(32)",
+          "comment": "渠道编码，例如 web/app/mini_program",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": [
+            "ad",
+            "app",
+            "mini_program",
+            "seo",
+            "social",
+            "web"
+          ]
+        },
+        {
+          "name": "channel_name",
+          "data_type": "varchar(64)",
+          "comment": "渠道名称，例如官网、App、小程序",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "channel_type",
+          "data_type": "varchar(32)",
+          "comment": "渠道类型，例如 owned/paid/organic",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "paid",
+            "owned",
+            "organic"
+          ]
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "dim_region",
+      "comment": "地区维度表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "地区维度ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "country",
+          "data_type": "varchar(64)",
+          "comment": "国家名称，例如中国",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "province",
+          "data_type": "varchar(64)",
+          "comment": "省/州，例如浙江省",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "city",
+          "data_type": "varchar(64)",
+          "comment": "城市名称，例如杭州市",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "city_level",
+          "data_type": "enum",
+          "comment": "城市等级: tier1=一线城市, tier2=新一线/二线城市, tier3=三线城市, other=其他",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "tier1",
+            "tier2",
+            "tier3",
+            "other"
+          ]
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "logistics_providers",
+      "comment": "物流承运商表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "物流承运商ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(64)",
+          "comment": "物流承运商名称，例如顺丰、中通",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "code",
+          "data_type": "varchar(32)",
+          "comment": "承运商编码，内部统一标识",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "CAINIAO",
+            "JD",
+            "JT",
+            "SF",
+            "STO",
+            "YD",
+            "YTO",
+            "ZTO"
+          ]
+        },
+        {
+          "name": "contact_phone",
+          "data_type": "varchar(20)",
+          "comment": "客服电话/联系号码",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "service_level",
+          "data_type": "enum",
+          "comment": "服务等级: standard=标准快递, express=加急快递, same_day=当日达, economy=经济快递",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "express",
+            "standard",
+            "economy"
+          ]
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "order_coupons",
+      "comment": "订单用券表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "订单用券记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "coupon_id",
+          "data_type": "bigint",
+          "comment": "优惠券ID，对应 coupons.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "该券在此订单上的实际优惠金额",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "order_items",
+      "comment": "订单明细表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "订单明细ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "product_id",
+          "data_type": "bigint",
+          "comment": "商品ID，对应 products.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "quantity",
+          "data_type": "integer",
+          "comment": "购买数量",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "unit_price",
+          "data_type": "decimal(18, 2)",
+          "comment": "成交单价，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "subtotal_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "明细小计金额，quantity * unit_price",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "orders",
+      "comment": "订单表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "订单ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "order_no",
+          "data_type": "varchar(64)",
+          "comment": "订单号，业务唯一编码",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "user_id",
+          "data_type": "bigint",
+          "comment": "下单用户ID，对应 users.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "shop_id",
+          "data_type": "bigint",
+          "comment": "所属店铺ID，对应 shops.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "order_channel_code",
+          "data_type": "varchar(32)",
+          "comment": "下单渠道编码，对应 dim_channel.channel_code",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": [
+            "ad",
+            "app",
+            "mini_program",
+            "seo",
+            "social",
+            "web"
+          ]
+        },
+        {
+          "name": "shipping_region_id",
+          "data_type": "bigint",
+          "comment": "收货地区ID，对应 dim_region.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "订单状态: created=已创建/待付款, paid=已付款/待发货, shipped=已发货, completed=已完成, cancelled=已取消, refunded=已退款",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "created",
+            "paid",
+            "shipped",
+            "completed",
+            "cancelled",
+            "refunded"
+          ]
+        },
+        {
+          "name": "total_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "订单商品总金额（未扣减优惠）",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "订单总优惠金额",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "pay_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "订单实付金额（total_amount - discount_amount）",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "created_at",
+          "data_type": "datetime",
+          "comment": "下单时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "paid_at",
+          "data_type": "datetime",
+          "comment": "支付时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "payments",
+      "comment": "支付记录表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "支付记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "对应订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "pay_method",
+          "data_type": "enum",
+          "comment": "支付方式: alipay=支付宝, wechat=微信支付, card=银行卡, other=其他方式",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "alipay",
+            "other",
+            "wechat",
+            "card"
+          ]
+        },
+        {
+          "name": "pay_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "支付金额，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "pay_status",
+          "data_type": "enum",
+          "comment": "支付状态: pending=待支付, success=支付成功, failed=支付失败",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "success"
+          ]
+        },
+        {
+          "name": "paid_at",
+          "data_type": "datetime",
+          "comment": "支付完成时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "products",
+      "comment": "商品表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "商品ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(128)",
+          "comment": "商品名称",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "category_id",
+          "data_type": "bigint",
+          "comment": "所属类目ID，对应 categories.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "shop_id",
+          "data_type": "bigint",
+          "comment": "所属店铺ID，对应 shops.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "brand",
+          "data_type": "varchar(64)",
+          "comment": "品牌名称",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "price",
+          "data_type": "decimal(18, 2)",
+          "comment": "标价，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "上下架状态: on_sale=在售, off_sale=已下架",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "on_sale",
+            "off_sale"
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "datetime",
+          "comment": "商品创建时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "refunds",
+      "comment": "退款记录表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "退款记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "对应订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "payment_id",
+          "data_type": "bigint",
+          "comment": "对应支付记录ID，对应 payments.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "refund_amount",
+          "data_type": "decimal(18, 2)",
+          "comment": "退款金额，单位元",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "refund_reason",
+          "data_type": "varchar(255)",
+          "comment": "退款原因描述",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "refund_status",
+          "data_type": "enum",
+          "comment": "退款状态: pending=待退款, success=退款成功, failed=退款失败",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "success"
+          ]
+        },
+        {
+          "name": "refunded_at",
+          "data_type": "datetime",
+          "comment": "退款完成时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "shipment_items",
+      "comment": "发货明细表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "发货明细ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "shipment_id",
+          "data_type": "bigint",
+          "comment": "发货单ID，对应 shipments.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "order_item_id",
+          "data_type": "bigint",
+          "comment": "订单明细ID，对应 order_items.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "quantity",
+          "data_type": "integer",
+          "comment": "本次发货数量",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "shipment_tracking_events",
+      "comment": "物流轨迹事件表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "物流轨迹事件ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "shipment_id",
+          "data_type": "bigint",
+          "comment": "发货单ID，对应 shipments.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "event_time",
+          "data_type": "datetime",
+          "comment": "事件时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "event_status",
+          "data_type": "varchar(64)",
+          "comment": "事件状态/节点，例如已揽收、运输中、派送中、已签收",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "已揽收",
+            "运输中",
+            "派送中",
+            "已签收"
+          ]
+        },
+        {
+          "name": "location",
+          "data_type": "varchar(128)",
+          "comment": "事件发生地，例如城市/网点",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "description",
+          "data_type": "varchar(255)",
+          "comment": "事件描述详情",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "shipments",
+      "comment": "发货单表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "发货单ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "order_id",
+          "data_type": "bigint",
+          "comment": "关联订单ID，对应 orders.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "logistics_provider_id",
+          "data_type": "bigint",
+          "comment": "物流承运商ID，对应 logistics_providers.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "tracking_no",
+          "data_type": "varchar(64)",
+          "comment": "运单号/快递单号",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "shipped_at",
+          "data_type": "datetime",
+          "comment": "发货时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "delivered_at",
+          "data_type": "datetime",
+          "comment": "签收时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "物流状态: pending=待发货, shipped=已发货, in_transit=运输中, delivered=已签收, returned=已退回, lost=快件丢失",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "delivered",
+            "returned",
+            "shipped",
+            "in_transit",
+            "lost"
+          ]
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "shops",
+      "comment": "店铺表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "店铺ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "name",
+          "data_type": "varchar(128)",
+          "comment": "店铺名称",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "owner_user_id",
+          "data_type": "bigint",
+          "comment": "店主用户ID，对应 users.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "shop_type",
+          "data_type": "enum",
+          "comment": "店铺类型: self=平台自营, third_party=第三方商家",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "third_party",
+            "self"
+          ]
+        },
+        {
+          "name": "region_id",
+          "data_type": "bigint",
+          "comment": "店铺所在地区，对应 dim_region.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "opened_at",
+          "data_type": "datetime",
+          "comment": "店铺开店时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "店铺状态: active=正常营业, inactive=停用/关店",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "active",
+            "inactive"
+          ]
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "user_coupons",
+      "comment": "用户领券表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "用户券记录ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "user_id",
+          "data_type": "bigint",
+          "comment": "用户ID，对应 users.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "coupon_id",
+          "data_type": "bigint",
+          "comment": "优惠券ID，对应 coupons.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "status",
+          "data_type": "enum",
+          "comment": "券状态: unused=未使用, used=已使用, expired=已过期",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "unused",
+            "used",
+            "expired"
+          ]
+        },
+        {
+          "name": "received_at",
+          "data_type": "datetime",
+          "comment": "领取时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "used_at",
+          "data_type": "datetime",
+          "comment": "使用时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "name": "users",
+      "comment": "用户表",
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "bigint",
+          "comment": "用户ID",
+          "is_primary_key": true,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "username",
+          "data_type": "varchar(64)",
+          "comment": "用户名/登录名",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "email",
+          "data_type": "varchar(128)",
+          "comment": "邮箱地址",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "phone",
+          "data_type": "varchar(20)",
+          "comment": "手机号",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "registered_at",
+          "data_type": "datetime",
+          "comment": "注册时间",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": null
+        },
+        {
+          "name": "register_channel_code",
+          "data_type": "varchar(32)",
+          "comment": "注册渠道编码，对应 dim_channel.channel_code",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": [
+            "ad",
+            "app",
+            "mini_program",
+            "seo",
+            "social",
+            "web"
+          ]
+        },
+        {
+          "name": "region_id",
+          "data_type": "bigint",
+          "comment": "用户所在地区，对应 dim_region.id",
+          "is_primary_key": false,
+          "is_foreign_key": true,
+          "sample_values": null
+        },
+        {
+          "name": "level",
+          "data_type": "tinyint",
+          "comment": "会员等级: 0=普通用户, 1=银卡会员, 2=金卡会员, 3=VIP会员",
+          "is_primary_key": false,
+          "is_foreign_key": false,
+          "sample_values": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "relationships": []
+    }
+  ]
+}

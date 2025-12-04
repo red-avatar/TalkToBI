@@ -1,0 +1,288 @@
+[
+  {
+    "source": "users",
+    "target": "dim_region",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "users.region_id = dim_region.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "用户注册地区。用于：用户地区分布、会员区域分析、新用户来源地区等"
+    }
+  },
+  {
+    "source": "users",
+    "target": "dim_channel",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "users.register_channel_code = dim_channel.channel_code",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "用户注册渠道。用于：各渠道新用户数、用户来源分析、注册转化率等"
+    }
+  },
+  {
+    "source": "shops",
+    "target": "dim_region",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shops.region_id = dim_region.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "店铺/卖家所在地区。用于：店铺地区分布、卖家省份分析、商家区域统计等"
+    }
+  },
+  {
+    "source": "orders",
+    "target": "dim_channel",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "orders.order_channel_code = dim_channel.channel_code",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单来源渠道。用于：各渠道销售额、渠道订单分布、渠道效果分析等"
+    }
+  },
+  {
+    "source": "orders",
+    "target": "dim_region",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "orders.shipping_region_id = dim_region.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单收货地址所在地区(买家地区)。用于：各地区销售额、订单地区分布、GMV按省份统计、买家省份分析等"
+    }
+  },
+  {
+    "source": "shops",
+    "target": "users",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shops.owner_user_id = users.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "店铺店主(卖家用户)。用于：卖家信息查询、店主用户分析等"
+    }
+  },
+  {
+    "source": "categories",
+    "target": "categories",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "categories.parent_id = categories.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "类目层级关系(父子类目)。用于：类目树查询、上下级类目关联等"
+    }
+  },
+  {
+    "source": "products",
+    "target": "categories",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "products.category_id = categories.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "商品所属类目。用于：各类目销售额、品类分析、商品类目分布等"
+    }
+  },
+  {
+    "source": "products",
+    "target": "shops",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "products.shop_id = shops.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "商品所属店铺。用于：店铺商品数、店铺商品分析等"
+    }
+  },
+  {
+    "source": "orders",
+    "target": "users",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "orders.user_id = users.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单买家(下单用户)。用于：用户订单数、用户消费分析、买家统计等"
+    }
+  },
+  {
+    "source": "orders",
+    "target": "shops",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "orders.shop_id = shops.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单所属店铺(卖家)。用于：店铺销售额、店铺订单数、卖家业绩分析等"
+    }
+  },
+  {
+    "source": "order_items",
+    "target": "orders",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "order_items.order_id = orders.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单明细所属订单。用于：订单商品明细查询、商品销量统计等"
+    }
+  },
+  {
+    "source": "order_items",
+    "target": "products",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "order_items.product_id = products.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单明细对应商品。用于：商品销量、商品销售额、热销商品分析等"
+    }
+  },
+  {
+    "source": "payments",
+    "target": "orders",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "payments.order_id = orders.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "支付记录对应订单。用于：支付方式分析、支付成功率、支付金额统计等"
+    }
+  },
+  {
+    "source": "refunds",
+    "target": "orders",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "refunds.order_id = orders.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "退款记录对应订单。用于：订单退款率、退款金额统计等"
+    }
+  },
+  {
+    "source": "refunds",
+    "target": "payments",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "refunds.payment_id = payments.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "退款对应原支付记录。用于：退款源支付追溯等"
+    }
+  },
+  {
+    "source": "coupons",
+    "target": "shops",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "coupons.shop_id = shops.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "店铺专属优惠券。用于：店铺优惠券分析、卖家促销统计等"
+    }
+  },
+  {
+    "source": "user_coupons",
+    "target": "users",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "user_coupons.user_id = users.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "用户持有的优惠券。用于：用户优惠券数量、用券率分析等"
+    }
+  },
+  {
+    "source": "user_coupons",
+    "target": "coupons",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "user_coupons.coupon_id = coupons.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "用户优惠券对应的券类型。用于：优惠券类型分布、券领取分析等"
+    }
+  },
+  {
+    "source": "order_coupons",
+    "target": "orders",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "order_coupons.order_id = orders.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单使用的优惠券。用于：优惠券使用率、订单优惠分析等"
+    }
+  },
+  {
+    "source": "order_coupons",
+    "target": "coupons",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "order_coupons.coupon_id = coupons.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "订单优惠券类型。用于：各类型优惠券使用情况分析等"
+    }
+  },
+  {
+    "source": "shipments",
+    "target": "orders",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shipments.order_id = orders.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "发货单对应订单。用于：订单物流状态、发货情况统计等"
+    }
+  },
+  {
+    "source": "shipments",
+    "target": "logistics_providers",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shipments.logistics_provider_id = logistics_providers.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "发货单承运物流商。用于：各物流商订单量、物流商签收率分析等"
+    }
+  },
+  {
+    "source": "shipment_items",
+    "target": "shipments",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shipment_items.shipment_id = shipments.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "发货明细所属发货单。用于：发货单商品明细等"
+    }
+  },
+  {
+    "source": "shipment_items",
+    "target": "order_items",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shipment_items.order_item_id = order_items.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "发货明细对应订单明细。用于：商品发货情况追溯等"
+    }
+  },
+  {
+    "source": "shipment_tracking_events",
+    "target": "shipments",
+    "type": "JOIN_ON",
+    "properties": {
+      "condition": "shipment_tracking_events.shipment_id = shipments.id",
+      "confidence": 1,
+      "join_type": "FOREIGN_KEY",
+      "description": "物流轨迹事件。用于：物流跟踪、运输时效分析等"
+    }
+  }
+]

@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+dist/
+build/
+out/
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Factory
+.factory/
+
+# Test logs and outputs
+tests/logs/
+*.test.log
+
+# Warp
+.warp/
+
+# Python eggs
+*.egg
+*.egg-info/
+
+# Cache directories
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Test logs and outputs
+tests/logs/
+*.test.log
+
+# Warp
+.warp/
+
+# Python eggs
+*.egg
+*.egg-info/
+
+# Cache directories
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Pictures
+picture/
